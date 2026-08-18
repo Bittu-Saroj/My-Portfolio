@@ -1,0 +1,12 @@
+# Local uploads and generated media (manage these through the admin panel)
+assets/uploads/*
+!assets/uploads/photos/.gitkeep
+!assets/uploads/projects/.gitkeep
+!assets/uploads/videos/.gitkeep
+!assets/uploads/tools/.gitkeep
+
+# Local/editor and OS files
+.env
+.env.*
+.DS_Store
+Thumbs.db

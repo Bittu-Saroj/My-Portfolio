@@ -1,0 +1,137 @@
+/* Modern, minimal portfolio styles for Saroj Pathak */
+:root{
+  --bg:#0A0A0A;
+  --bg-2:#111111;
+  --text:#FFFFFF;
+  --muted:#A0A0A0;
+  --accent:#F5C542;
+  --container:1200px;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;line-height:1.4}
+.container{max-width:var(--container);margin:0 auto;padding:2rem}
+.site-header{position:sticky;top:0;z-index:60;background:linear-gradient(to bottom, rgba(10,10,10,0.6), rgba(10,10,10,0.2));backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,0.03)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:0.75rem 0}
+.brand{font-weight:700;letter-spacing:1px;color:var(--text);text-decoration:none}
+.nav-menu{display:flex;align-items:center}
+.nav-list{display:flex;gap:1rem;list-style:none;margin:0;padding:0}
+.nav-link{color:var(--muted);text-decoration:none;padding:6px 8px;border-radius:6px}
+.nav-link:hover,.nav-link.active{color:var(--text);background:rgba(245,197,66,0.06);border:1px solid rgba(245,197,66,0.06)}
+.nav-cta{margin-left:1rem}
+.btn{display:inline-block;padding:0.6rem 1rem;border-radius:8px;text-decoration:none;font-weight:600}
+.btn-primary{background:var(--accent);color:#111}
+.btn-outline{border:1px solid rgba(255,255,255,0.06);color:var(--text);background:transparent}
+.btn-cta{background:var(--accent);color:#111}
+.btn-sm{padding:0.35rem 0.6rem;font-size:0.9rem}
+.nav-toggle{display:none;background:none;border:0;color:var(--text)}
+.hamburger, .hamburger::before, .hamburger::after{display:block;width:22px;height:2px;background:var(--text);position:relative}
+.hamburger::before,.hamburger::after{content:'';position:absolute;left:0}
+.hamburger::before{top:-6px}
+.hamburger::after{top:6px}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr 480px;gap:2rem;align-items:center;padding-top:3rem;padding-bottom:3rem}
+.eyebrow{color:var(--accent);font-weight:600}
+.hero-title{font-family:Space Grotesk, Inter, sans-serif;font-size:2.25rem;margin:0 0 0.5rem}
+.hero-sub{color:var(--muted);margin:0 0 1rem}
+.hero-intro{color:var(--muted);margin-bottom:1rem}
+.hero-actions{display:flex;gap:0.75rem;margin-bottom:1rem}
+.hero-labels{display:flex;gap:0.5rem;flex-wrap:wrap}
+.label{background:rgba(245,197,66,0.08);color:var(--accent);padding:6px 10px;border-radius:999px;font-weight:600;font-size:0.85rem}
+.profile-frame{width:100%;max-width:420px;margin-left:auto;border-radius:18px;padding:8px;background:linear-gradient(180deg, rgba(245,197,66,0.06), transparent);position:relative}
+.profile-photo{width:100%;height:520px;object-fit:cover;border-radius:12px;display:block;border:1px solid rgba(245,197,66,0.08);box-shadow:0 8px 30px rgba(0,0,0,0.6)}
+.profile-decor{position:absolute;right:10px;bottom:10px;width:60px;height:60px;border-radius:50%;box-shadow:0 10px 30px rgba(245,197,66,0.08)}
+
+/* Sections */
+.section{padding:3rem 0}
+.section h2{font-family:Space Grotesk, Inter, sans-serif;margin-bottom:0.5rem}
+.section .muted{color:var(--muted)}
+.section-grid{display:grid;grid-template-columns:1fr 360px;gap:2rem;align-items:start}
+.skills-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:1.25rem;border-radius:12px}
+.skills-grid{display:grid;grid-template-columns:1fr;gap:0.8rem}
+.skill{display:flex;gap:0.8rem;align-items:center}
+.skill i{font-size:1.6rem;color:var(--accent);width:40px}
+.what-i-do{display:grid;grid-template-columns:repeat(2, minmax(0,1fr));gap:0.5rem;padding-left:0;list-style:none}
+.what-i-do li{background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:8px}
+
+/* Projects & grids */
+.projects-grid, .video-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.projects-grid .project-card{background:var(--bg-2);border-radius:12px;overflow:hidden}
+.project-card img{width:100%;height:170px;object-fit:cover}
+.project-body{padding:0.8rem}
+.project-actions{display:flex;gap:0.5rem;margin-top:0.5rem}
+
+/* Design grid */
+.projects-grid#design-grid{grid-template-columns:repeat(3,1fr)}
+.project-card .project-body h4{margin:0}
+
+/* Masonry photography grid (simple) */
+.masonry-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.6rem}
+.masonry-grid img{width:100%;height:200px;object-fit:cover;border-radius:8px}
+
+/* Before/After */
+.before-after-list{display:flex;flex-direction:column;gap:1rem}
+.before-after{position:relative;height:420px;border-radius:12px;overflow:hidden;background:#222}
+.before-after img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.before-after .after{clip-path:inset(0 0 0 50%)}
+.before-after .handle{position:absolute;left:50%;top:0;transform:translateX(-50%);width:3px;height:100%;background:var(--accent);}
+
+/* Lightbox */
+.lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);z-index:140;padding:2rem}
+.lightbox img{max-width:90%;max-height:80%}
+.lightbox.show{display:flex}
+.lightbox-close{position:absolute;right:2rem;top:2rem;background:transparent;border:0;color:var(--text);font-size:2rem}
+
+/* Services */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.service{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:1rem;border-radius:10px;text-align:center}
+.service i{font-size:1.8rem;color:var(--accent);margin-bottom:0.5rem}
+
+/* Process timeline */
+.process-timeline{display:flex;gap:1rem;justify-content:space-between}
+.process-timeline .step{background:rgba(255,255,255,0.02);padding:1rem;border-radius:10px;text-align:center;flex:1}
+
+/* Contact */
+.contact-grid{display:grid;grid-template-columns:1fr 420px;gap:2rem}
+.contact-form label{display:block;margin-top:0.5rem;color:var(--muted)}
+.contact-form input,.contact-form textarea{width:100%;padding:0.6rem;margin-top:0.3rem;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)}
+.form-feedback{margin-top:0.5rem;color:var(--accent)}
+
+/* Footer */
+.site-footer{border-top:1px solid rgba(255,255,255,0.03);padding:2rem 0;margin-top:2rem}
+.footer-grid{display:flex;justify-content:space-between;align-items:center}
+.footer-nav{display:flex;gap:1rem;list-style:none;padding:0;margin:0}
+.socials a{color:var(--muted);margin-left:0.6rem}
+
+/* Utilities */
+.reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:none}
+.muted{color:var(--muted)}
+
+/* Responsive */
+@media (max-width:1100px){
+  .hero{grid-template-columns:1fr 360px}
+  .profile-photo{height:440px}
+}
+@media (max-width:900px){
+  .section-grid{grid-template-columns:1fr}
+  .hero{grid-template-columns:1fr}
+  .profile-photo{height:360px;margin-top:1rem}
+  .contact-grid{grid-template-columns:1fr}
+  .projects-grid#design-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+  .nav-list{display:none}
+  .nav-toggle{display:block}
+  .nav-menu{position:fixed;top:64px;right:14px;background:var(--bg-2);padding:1rem;border-radius:10px;display:none;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+  .nav-menu.open{display:block}
+  .projects-grid#design-grid{grid-template-columns:1fr}
+  .services-grid{grid-template-columns:1fr}
+  .process-timeline{flex-direction:column}
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .reveal{transition:none}
+}
