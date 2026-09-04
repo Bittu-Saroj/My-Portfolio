@@ -53,14 +53,39 @@ document.addEventListener('DOMContentLoaded', function(){
   // Nav toggle
   const navToggle = document.querySelector('.nav-toggle');
   const navMenu = document.querySelector('.nav-menu');
+  const megaTriggers = [...document.querySelectorAll('.nav-trigger')];
+  const closeMegaMenus = () => megaTriggers.forEach(trigger=>{
+    trigger.setAttribute('aria-expanded','false');
+    trigger.nextElementSibling?.classList.remove('open');
+  });
+  megaTriggers.forEach(trigger=>{
+    trigger.addEventListener('click', event=>{
+      event.preventDefault();
+      const wasOpen = trigger.getAttribute('aria-expanded') === 'true';
+      closeMegaMenus();
+      if(!wasOpen){
+        trigger.setAttribute('aria-expanded','true');
+        trigger.nextElementSibling?.classList.add('open');
+      }
+    });
+  });
   navToggle?.addEventListener('click', ()=>{
     const expanded = navToggle.getAttribute('aria-expanded') === 'true';
     navToggle.setAttribute('aria-expanded', String(!expanded));
     navMenu.classList.toggle('open');
+    if(expanded) closeMegaMenus();
   });
   document.addEventListener('click', (event)=>{
+    if(!event.target.closest('.nav-dropdown')) closeMegaMenus();
     if(navMenu?.classList.contains('open') && !navMenu.contains(event.target) && !navToggle.contains(event.target)){
       navMenu.classList.remove('open'); navToggle.setAttribute('aria-expanded','false');
+    }
+  });
+  document.addEventListener('keydown', event=>{
+    if(event.key === 'Escape'){
+      closeMegaMenus();
+      navMenu?.classList.remove('open');
+      navToggle?.setAttribute('aria-expanded','false');
     }
   });
 
@@ -80,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function(){
     })
   });
 
-  const navLinks = [...document.querySelectorAll('.nav-link')];
+  const navLinks = [...document.querySelectorAll('.nav-link[href]')];
   const navSections = navLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
   const activeSectionObserver = new IntersectionObserver(entries=>{
     entries.forEach(entry=>{
