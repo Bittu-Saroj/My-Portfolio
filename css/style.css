@@ -33,10 +33,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:Inter,s
 /* HERO */
 .hero{display:grid;grid-template-columns:1fr 480px;gap:2rem;align-items:center;padding-top:3rem;padding-bottom:3rem}
 .eyebrow{color:var(--accent);font-weight:600}
-.hero-title{font-family:Space Grotesk, Inter, sans-serif;font-size:2.25rem;margin:0 0 0.5rem}
+.hero-title{font-family:Space Grotesk, Inter, sans-serif;font-size:clamp(2.25rem,5vw,4rem);line-height:1.08;margin:0 0 0.8rem;letter-spacing:-1.5px}
 .hero-sub{color:var(--muted);margin:0 0 1rem}
 .hero-intro{color:var(--muted);margin-bottom:1rem}
-.hero-actions{display:flex;gap:0.75rem;margin-bottom:1rem}
+.hero-actions{display:flex;gap:0.75rem;margin-bottom:1.25rem}
 .hero-labels{display:flex;gap:0.5rem;flex-wrap:wrap}
 .label{background:rgba(245,197,66,0.08);color:var(--accent);padding:6px 10px;border-radius:999px;font-weight:600;font-size:0.85rem}
 .profile-frame{width:100%;max-width:420px;margin-left:auto;border-radius:18px;padding:8px;background:linear-gradient(180deg, rgba(245,197,66,0.06), transparent);position:relative}
@@ -44,7 +44,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:Inter,s
 .profile-decor{position:absolute;right:10px;bottom:10px;width:60px;height:60px;border-radius:50%;box-shadow:0 10px 30px rgba(245,197,66,0.08)}
 
 /* Sections */
-.section{padding:3rem 0}
+.section{padding:4rem 0}
 .section h2{font-family:Space Grotesk, Inter, sans-serif;margin-bottom:0.5rem}
 .section .muted{color:var(--muted)}
 .section-grid{display:grid;grid-template-columns:1fr 360px;gap:2rem;align-items:start}
@@ -58,7 +58,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:Inter,s
 /* Projects & grids */
 .projects-grid, .video-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
 .projects-grid .project-card{background:var(--bg-2);border-radius:12px;overflow:hidden}
-.project-card img{width:100%;height:170px;object-fit:cover}
+.project-card img{width:100%;height:210px;object-fit:cover}
 .project-body{padding:0.8rem}
 .project-actions{display:flex;gap:0.5rem;margin-top:0.5rem}
 
@@ -85,12 +85,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:Inter,s
 
 /* Services */
 .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-.service{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:1rem;border-radius:10px;text-align:center}
+.service{background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));padding:1.25rem;border:1px solid rgba(245,197,66,0.08);border-radius:10px;text-align:center;transition:transform .2s ease,border-color .2s ease}
+.service:hover{transform:translateY(-4px);border-color:rgba(245,197,66,0.35)}
 .service i{font-size:1.8rem;color:var(--accent);margin-bottom:0.5rem}
 
 /* Process timeline */
 .process-timeline{display:flex;gap:1rem;justify-content:space-between}
-.process-timeline .step{background:rgba(255,255,255,0.02);padding:1rem;border-radius:10px;text-align:center;flex:1}
+.process-timeline .step{background:rgba(255,255,255,0.03);padding:1rem;border:1px solid rgba(245,197,66,0.08);border-radius:10px;text-align:center;flex:1;color:var(--accent);font-weight:600}
 
 /* Contact */
 .contact-grid{display:grid;grid-template-columns:1fr 420px;gap:2rem}

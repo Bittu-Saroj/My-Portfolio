@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function(){
     list.forEach(p=>{
       const img = document.createElement('img');
       img.src = p.image || p;
-      img.alt = p.title || 'Photography placeholder';
+        img.alt = p.title || 'Saroj Pathak photography portfolio image';
       img.loading = 'lazy';
       img.addEventListener('click', ()=>openLightbox(img.src, p.title || 'Photography'));
       photoGrid.appendChild(img);
