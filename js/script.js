@@ -1,5 +1,9 @@
 // Script for nav, smooth scroll, reveal on scroll, simple gallery lightbox, before/after slider and contact form validation
 document.addEventListener('DOMContentLoaded', function(){
+  const header = document.querySelector('.site-header');
+  const updateHeader = () => header?.classList.toggle('scrolled', window.scrollY > 16);
+  updateHeader();
+  window.addEventListener('scroll', updateHeader, {passive:true});
   fetch('admin/api-settings.php').then(r=>r.ok?r.json():{}).then(settings=>{
     const setText=(selector,key)=>{const el=document.querySelector(selector); if(el && settings[key]) el.textContent=settings[key]};
     setText('.brand','site_name'); setText('.eyebrow','hero_eyebrow'); setText('.hero-sub','hero_sub'); setText('.hero-intro','hero_intro');
@@ -22,9 +26,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Software & Technology tools managed from the admin panel.
   fetch('admin/api-tools.php').then(r=>r.ok?r.json():[]).then(tools=>{
-    if(!Array.isArray(tools) || !tools.length) return;
     const grid=document.querySelector('.skills-grid'); if(!grid) return;
     grid.innerHTML='';
+    if(!Array.isArray(tools)) return;
     tools.forEach(tool=>{
       const item=document.createElement('div'); item.className='skill';
       if(tool.image){const img=document.createElement('img');img.src=tool.image;img.alt='';img.style.cssText='width:42px;height:42px;object-fit:contain;background:#fff;border-radius:6px;padding:4px';item.appendChild(img);}
@@ -38,6 +42,11 @@ document.addEventListener('DOMContentLoaded', function(){
     const expanded = navToggle.getAttribute('aria-expanded') === 'true';
     navToggle.setAttribute('aria-expanded', String(!expanded));
     navMenu.classList.toggle('open');
+  });
+  document.addEventListener('click', (event)=>{
+    if(navMenu?.classList.contains('open') && !navMenu.contains(event.target) && !navToggle.contains(event.target)){
+      navMenu.classList.remove('open'); navToggle.setAttribute('aria-expanded','false');
+    }
   });
 
   // Smooth scroll for internal links
@@ -73,8 +82,11 @@ document.addEventListener('DOMContentLoaded', function(){
   ];
 
   const designGrid = document.getElementById('design-grid');
+  if(designGrid) designGrid.innerHTML = '<div class="loading-state">Loading selected work…</div>';
   function renderDesign(projects){
+    if(!designGrid) return;
     designGrid.innerHTML = '';
+    if(!projects.length){ designGrid.innerHTML='<div class="empty-state">No projects in this category yet.</div>'; return; }
     projects.forEach(p=>{
       const toolsArr = Array.isArray(p.tools) ? p.tools : (p.tools ? String(p.tools).split(',') : []);
       const imgSrc = p.image || (p.filename ? p.filename : 'assets/images/design/social-01.svg');
@@ -85,7 +97,9 @@ document.addEventListener('DOMContentLoaded', function(){
       const title = document.createElement('h4'); title.textContent = p.title || '';
       const category = document.createElement('p'); category.className = 'muted'; category.textContent = p.category || '';
       const toolList = document.createElement('p'); toolList.className = 'muted'; toolList.textContent = toolsArr.join(', ');
-      body.append(title, category, toolList); card.append(imgEl, body);
+      body.append(title, category, toolList);
+      if(p.description){const description=document.createElement('p'); description.textContent=p.description; body.appendChild(description);}
+      card.append(imgEl, body);
       imgEl.addEventListener('click', ()=>openLightbox(imgSrc, p.title || ''));
       designGrid.appendChild(card);
     })
@@ -93,8 +107,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Try to fetch live projects from admin API, fallback to local designProjects
   fetch('admin/api-design.php').then(r=>{ if(!r.ok) throw new Error('Network response not ok'); return r.json(); }).then(data=>{
-    if(Array.isArray(data) && data.length){ designProjects = data; renderDesign(designProjects); }
-    else renderDesign(designProjects);
+    if(Array.isArray(data)){ designProjects = data; renderDesign(designProjects); }
+    else renderDesign([]);
   }).catch(()=>{
     renderDesign(designProjects);
   });
@@ -115,12 +129,15 @@ document.addEventListener('DOMContentLoaded', function(){
     'assets/images/photography/portrait-01.svg','assets/images/photography/landscape-01.svg','assets/images/photography/event-01.svg','assets/images/photography/product-01.svg'
   ];
   const photoGrid = document.getElementById('photo-grid');
+  if(photoGrid) photoGrid.innerHTML = '<div class="loading-state">Loading photographs…</div>';
   function renderPhotos(list){
+    if(!photoGrid) return;
     photoGrid.innerHTML = '';
+    if(!list.length){ photoGrid.innerHTML='<div class="empty-state">Photography will be published here soon.</div>'; return; }
     list.forEach(p=>{
       const img = document.createElement('img');
       img.src = p.image || p;
-        img.alt = p.title || 'Saroj Pathak photography portfolio image';
+      img.alt = p.title || 'Photography placeholder';
       img.loading = 'lazy';
       img.addEventListener('click', ()=>openLightbox(img.src, p.title || 'Photography'));
       photoGrid.appendChild(img);
@@ -128,26 +145,74 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   // Attempt to fetch dynamic photos from admin API
   fetch('admin/api-photos.php').then(r=>{ if(!r.ok) throw new Error('Network response not ok'); return r.json(); }).then(data=>{
-    if(Array.isArray(data) && data.length) renderPhotos(data);
-    else renderPhotos(photos);
+    if(Array.isArray(data)) renderPhotos(data);
+    else renderPhotos([]);
   }).catch(()=>{
     // fallback local
     renderPhotos(photos);
   });
 
+  // Videos and process steps are managed from the admin panel. A fallback is
+  // used only when the API is unavailable; a successful empty response means
+  // the administrator intentionally has no published items.
+  const videoGrid = document.getElementById('video-grid');
+  if(videoGrid) videoGrid.innerHTML = '<div class="loading-state">Loading video projects…</div>';
+  function renderVideoFallback(){
+    if(!videoGrid) return;
+    videoGrid.innerHTML='<div class="video-card placeholder"><div class="video-thumb">Video Coming Soon</div><h4>Project Placeholder</h4><p class="muted">Premiere Pro / Reels</p></div>';
+  }
+  fetch('admin/api-videos.php').then(r=>{if(!r.ok) throw new Error('API unavailable'); return r.json();}).then(videos=>{
+    if(!videoGrid) return;
+    videoGrid.innerHTML='';
+    if(!videos.length){ videoGrid.innerHTML='<div class="empty-state">Video projects will be published here soon.</div>'; return; }
+    videos.forEach(video=>{
+      const card=document.createElement('div'); card.className='video-card';
+      const thumb=document.createElement('div'); thumb.className='video-thumb';
+      if(video.video && !video.thumb){const player=document.createElement('video'); player.src=video.video; player.controls=true; player.preload='metadata'; thumb.appendChild(player);}
+      else if(video.thumb){const img=document.createElement('img'); img.src=video.thumb; img.alt=video.title||'Video'; thumb.appendChild(img);}
+      else thumb.textContent='Video';
+      card.append(thumb);
+      const title=document.createElement('h4'); title.textContent=video.title||''; card.appendChild(title);
+      const desc=document.createElement('p'); desc.className='muted'; desc.textContent=video.description||''; card.appendChild(desc);
+      if(video.url){const link=document.createElement('a'); link.className='btn btn-sm'; link.href=video.url; link.target='_blank'; link.rel='noopener'; link.textContent='Watch video'; card.appendChild(link);}
+      videoGrid.appendChild(card);
+    });
+  }).catch(()=>{renderVideoFallback();});
+
+  const processTimeline = document.getElementById('process-timeline');
+  if(processTimeline) processTimeline.innerHTML = '<div class="loading-state">Loading process…</div>';
+  function renderProcessFallback(){
+    if(!processTimeline) return;
+    processTimeline.innerHTML=['Discover','Plan','Design','Refine','Deliver'].map((name,index)=>'<div class="step">'+(index+1)+'. '+name+'</div>').join('');
+  }
+  fetch('admin/api-process.php').then(r=>{if(!r.ok) throw new Error('API unavailable'); return r.json();}).then(steps=>{
+    if(!processTimeline) return;
+    processTimeline.innerHTML='';
+    if(!steps.length){ processTimeline.innerHTML='<div class="empty-state">Process details coming soon.</div>'; return; }
+    steps.forEach(step=>{
+      const item=document.createElement('div'); item.className='step';
+      const title=document.createElement('strong'); title.textContent=(step.step_index ? step.step_index+'. ' : '')+(step.title||''); item.appendChild(title);
+      if(step.description){const description=document.createElement('small'); description.textContent=step.description; item.appendChild(description);}
+      processTimeline.appendChild(item);
+    });
+  }).catch(()=>{renderProcessFallback();});
+
   // Lightbox
   const lightbox = document.getElementById('lightbox');
-  const lightboxImg = lightbox.querySelector('.lightbox-img');
-  const lightboxCaption = lightbox.querySelector('.lightbox-caption');
-  const lightboxClose = lightbox.querySelector('.lightbox-close');
+  const lightboxImg = lightbox?.querySelector('.lightbox-img');
+  const lightboxCaption = lightbox?.querySelector('.lightbox-caption');
+  const lightboxClose = lightbox?.querySelector('.lightbox-close');
   function openLightbox(src, caption){
+    if(!lightbox || !lightboxImg || !lightboxCaption) return;
     lightboxImg.src = src; lightboxImg.alt = caption || '';
     lightboxCaption.textContent = caption || '';
     lightbox.classList.add('show'); lightbox.setAttribute('aria-hidden','false');
+    lightboxClose?.focus();
+    document.body.style.overflow='hidden';
   }
-  function closeLightbox(){lightbox.classList.remove('show');lightbox.setAttribute('aria-hidden','true');}
-  lightboxClose.addEventListener('click', closeLightbox);
-  lightbox.addEventListener('click', (e)=>{if(e.target===lightbox) closeLightbox()});
+  function closeLightbox(){lightbox.classList.remove('show');lightbox.setAttribute('aria-hidden','true');document.body.style.overflow='';}
+  lightboxClose?.addEventListener('click', closeLightbox);
+  lightbox?.addEventListener('click', (e)=>{if(e.target===lightbox) closeLightbox()});
   document.addEventListener('keydown', (e)=>{if(e.key==='Escape') closeLightbox()});
 
   // Before/After slider simple implementation
@@ -167,6 +232,15 @@ document.addEventListener('DOMContentLoaded', function(){
     container.addEventListener('pointerdown', (e)=>{dragging=true;container.setPointerCapture(e.pointerId);update(e.clientX)});
     container.addEventListener('pointermove', (e)=>{if(dragging) update(e.clientX)});
     container.addEventListener('pointerup', (e)=>{dragging=false});
+    container.setAttribute('role','slider');
+    container.setAttribute('tabindex','0');
+    container.setAttribute('aria-label','Before and after image comparison');
+    container.addEventListener('keydown', (e)=>{
+      if(e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      const current = parseFloat(handle.style.left) || 50;
+      update(container.getBoundingClientRect().left + container.getBoundingClientRect().width * (current + (e.key === 'ArrowRight' ? 5 : -5)) / 100);
+    });
     // set default to 50%
     setTimeout(()=>update(container.getBoundingClientRect().left + container.getBoundingClientRect().width/2),100);
   });
@@ -174,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Contact form validation (frontend only)
   const form = document.getElementById('contact-form');
   const feedback = document.getElementById('form-feedback');
-  form.addEventListener('submit', (e)=>{
+  form?.addEventListener('submit', (e)=>{
     e.preventDefault();
     const name = form.name.value.trim();
     const email = form.email.value.trim();
