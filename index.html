@@ -284,17 +284,26 @@
     <section id="contact" class="section container reveal">
       <div class="contact-grid">
         <div>
+          <p class="eyebrow">Start a conversation</p>
           <h2>Let's Create Something Together</h2>
-          <p class="muted">Have a project, idea, or collaboration in mind? Feel free to get in touch.</p>
-          <ul class="contact-list">
-            <li><strong>Email:</strong> <a href="mailto:bittu.ov2@gmail.com">bittu.ov2@gmail.com</a></li>
-            <li><strong>WhatsApp:</strong> 9866246710</li>
-            <li><strong>Instagram:</strong> <span class="muted">Connect through email for collaboration</span></li>
-            <li><strong>Facebook:</strong> <span class="muted">Connect through email for collaboration</span></li>
-          </ul>
+          <p class="muted contact-lead">Have a project, idea, or collaboration in mind? Tell me what you are building and I will get back to you as soon as possible.</p>
+          <div class="contact-cards">
+            <a class="contact-card" href="mailto:bittu.ov2@gmail.com">
+              <span class="contact-card-icon"><i class="fa-solid fa-envelope"></i></span>
+              <span><strong>Email me</strong><small>bittu.ov2@gmail.com</small></span>
+              <i class="fa-solid fa-arrow-up-right-from-square contact-card-arrow"></i>
+            </a>
+            <a class="contact-card" href="https://wa.me/9779866246710" target="_blank" rel="noopener">
+              <span class="contact-card-icon"><i class="fa-brands fa-whatsapp"></i></span>
+              <span><strong>WhatsApp</strong><small>+977 9866246710</small></span>
+              <i class="fa-solid fa-arrow-up-right-from-square contact-card-arrow"></i>
+            </a>
+          </div>
+          <div class="availability"><span class="availability-dot"></span><span><strong>Available for new projects</strong><small>Usually replies within 24–48 hours</small></span></div>
         </div>
         <div>
           <form id="contact-form" class="contact-form" action="https://formsubmit.co/bittu.ov2@gmail.com" method="POST" novalidate>
+            <div class="form-heading"><span class="form-icon"><i class="fa-solid fa-paper-plane"></i></span><span><strong>Send a message</strong><small>I will receive this directly by email.</small></span></div>
             <input type="hidden" name="_subject" value="New portfolio message from sarojpathak7.com.np" />
             <input type="hidden" name="_next" value="https://www.sarojpathak7.com.np/#contact" />
             <input type="hidden" name="_template" value="table" />
@@ -311,7 +320,7 @@
             <textarea id="message" name="message" rows="6" required></textarea>
 
             <div class="form-actions">
-              <button class="btn btn-primary" type="submit">Send Message</button>
+              <button class="btn btn-primary" type="submit">Send Message <i class="fa-solid fa-arrow-right"></i></button>
             </div>
             <div id="form-feedback" role="status" aria-live="polite" class="form-feedback"></div>
           </form>
