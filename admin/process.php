@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/inc/config.php';
 require_once __DIR__ . '/inc/auth.php';
+require_once __DIR__ . '/inc/csrf.php';
 require_login();
 $stmt = $pdo->query('SELECT * FROM process_steps ORDER BY step_index ASC');
 $steps = $stmt->fetchAll();
@@ -20,7 +21,7 @@ $steps = $stmt->fetchAll();
         <td><?=e($s['title'])?></td>
         <td><?=e($s['description'])?></td>
         <td style="white-space:nowrap"><a href="process-edit.php?id=<?=e($s['id'])?>" class="btn">Edit</a>
-        <a href="process-delete.php?id=<?=e($s['id'])?>" class="btn btn-outline" onclick="return confirm('Delete this step?')">Delete</a></td>
+        <form method="post" action="process-delete.php" style="display:inline" onsubmit="return confirm('Delete this step?')"><?php echo csrf_field(); ?><input type="hidden" name="id" value="<?=e($s['id'])?>"><button class="btn btn-outline" type="submit">Delete</button></form></td>
       </tr>
     <?php endforeach; ?>
     </tbody>

@@ -1,12 +1,5 @@
 // Script for nav, smooth scroll, reveal on scroll, simple gallery lightbox, before/after slider and contact form validation
 document.addEventListener('DOMContentLoaded', function(){
-  // Keep the static HTML useful while allowing the admin to edit the portfolio.
-  // Paths are relative because the site is commonly hosted in /saroj_portfolio.
-  document.querySelectorAll('[src^="/assets/"]').forEach(el=>el.src = el.src.replace('/assets/','assets/'));
-  document.querySelectorAll('[data-before^="/assets/"],[data-after^="/assets/"]').forEach(el=>{
-    if(el.dataset.before?.startsWith('/assets/')) el.dataset.before = el.dataset.before.replace('/assets/','assets/');
-    if(el.dataset.after?.startsWith('/assets/')) el.dataset.after = el.dataset.after.replace('/assets/','assets/');
-  });
   fetch('admin/api-settings.php').then(r=>r.ok?r.json():{}).then(settings=>{
     const setText=(selector,key)=>{const el=document.querySelector(selector); if(el && settings[key]) el.textContent=settings[key]};
     setText('.brand','site_name'); setText('.eyebrow','hero_eyebrow'); setText('.hero-sub','hero_sub'); setText('.hero-intro','hero_intro');
@@ -86,8 +79,13 @@ document.addEventListener('DOMContentLoaded', function(){
       const toolsArr = Array.isArray(p.tools) ? p.tools : (p.tools ? String(p.tools).split(',') : []);
       const imgSrc = p.image || (p.filename ? p.filename : 'assets/images/design/social-01.svg');
       const card = document.createElement('div'); card.className = 'project-card';
-      card.innerHTML = `<img src="${imgSrc}" alt="${(p.title||'Project')}" loading="lazy"><div class="project-body"><h4>${p.title||''}</h4><p class="muted">${p.category||''}</p><p class="muted">${toolsArr.join(', ')}</p></div>`;
-      const imgEl = card.querySelector('img');
+      const imgEl = document.createElement('img');
+      imgEl.src = imgSrc; imgEl.alt = p.title || 'Project'; imgEl.loading = 'lazy';
+      const body = document.createElement('div'); body.className = 'project-body';
+      const title = document.createElement('h4'); title.textContent = p.title || '';
+      const category = document.createElement('p'); category.className = 'muted'; category.textContent = p.category || '';
+      const toolList = document.createElement('p'); toolList.className = 'muted'; toolList.textContent = toolsArr.join(', ');
+      body.append(title, category, toolList); card.append(imgEl, body);
       imgEl.addEventListener('click', ()=>openLightbox(imgSrc, p.title || ''));
       designGrid.appendChild(card);
     })

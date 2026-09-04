@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/inc/config.php';
 require_once __DIR__ . '/inc/auth.php';
+require_once __DIR__ . '/inc/csrf.php';
 require_login();
 $stmt = $pdo->query('SELECT * FROM videos ORDER BY sort_order DESC, created_at DESC');
 $videos = $stmt->fetchAll();
@@ -23,7 +24,7 @@ $videos = $stmt->fetchAll();
         <td><?=e($v['external_url'] ?: $v['filename'])?></td>
         <td><?=e($v['created_at'])?></td>
         <td style="white-space:nowrap"><a href="video-edit.php?id=<?=e($v['id'])?>" class="btn">Edit</a>
-        <a href="video-delete.php?id=<?=e($v['id'])?>" class="btn btn-outline" onclick="return confirm('Delete this video?')">Delete</a></td>
+        <form method="post" action="video-delete.php" style="display:inline" onsubmit="return confirm('Delete this video?')"><?php echo csrf_field(); ?><input type="hidden" name="id" value="<?=e($v['id'])?>"><button class="btn btn-outline" type="submit">Delete</button></form></td>
       </tr>
     <?php endforeach; ?>
     </tbody>
