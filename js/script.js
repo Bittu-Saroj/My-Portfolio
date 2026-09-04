@@ -192,7 +192,14 @@ document.addEventListener('DOMContentLoaded', function(){
   if(processTimeline) processTimeline.innerHTML = '<div class="loading-state">Loading process…</div>';
   function renderProcessFallback(){
     if(!processTimeline) return;
-    processTimeline.innerHTML=['Discover','Plan','Design','Refine','Deliver'].map((name,index)=>'<div class="step">'+(index+1)+'. '+name+'</div>').join('');
+    const fallback = [
+      ['Discover','Understand your goals, audience, and direction.','fa-compass'],
+      ['Plan','Shape the concept, structure, and visual language.','fa-lightbulb'],
+      ['Design','Turn the idea into thoughtful, polished visuals.','fa-pen-ruler'],
+      ['Refine','Review details, improve clarity, and perfect the finish.','fa-wand-magic-sparkles'],
+      ['Deliver','Prepare the final work and make it ready to launch.','fa-rocket']
+    ];
+    processTimeline.innerHTML=fallback.map(([name,description,icon],index)=>'<div class="step"><span class="step-number">'+String(index+1).padStart(2,'0')+'</span><i class="fa-solid '+icon+'"></i><strong>'+name+'</strong><small>'+description+'</small></div>').join('');
   }
   fetch('admin/api-process.php').then(r=>{if(!r.ok) throw new Error('API unavailable'); return r.json();}).then(steps=>{
     if(!processTimeline) return;
@@ -200,7 +207,9 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!steps.length){ processTimeline.innerHTML='<div class="empty-state">Process details coming soon.</div>'; return; }
     steps.forEach(step=>{
       const item=document.createElement('div'); item.className='step';
-      const title=document.createElement('strong'); title.textContent=(step.step_index ? step.step_index+'. ' : '')+(step.title||''); item.appendChild(title);
+      const number=document.createElement('span'); number.className='step-number'; number.textContent=String(step.step_index || 1).padStart(2,'0'); item.appendChild(number);
+      const icon=document.createElement('i'); icon.className='fa-solid fa-sparkles'; item.appendChild(icon);
+      const title=document.createElement('strong'); title.textContent=step.title||''; item.appendChild(title);
       if(step.description){const description=document.createElement('small'); description.textContent=step.description; item.appendChild(description);}
       processTimeline.appendChild(item);
     });
