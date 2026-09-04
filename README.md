@@ -13,7 +13,7 @@ Where to place your assets
 -------------------------
 Place your images and videos into the assets folder (paths below are referenced by the site):
 
-- Profile photo: assets/images/profile.jpg
+- Profile photo: assets/images/profile.png
 - Favicon: assets/images/favicon.ico
 
 Design images (placeholders in code):
