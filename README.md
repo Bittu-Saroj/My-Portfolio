@@ -44,7 +44,7 @@ Notes & customization
 ---------------------
 - All image paths are local and intentionally placeholders. Replace with your real images.
 - Project data is inlined in js/script.js as simple arrays (designProjects, photos). Edit these arrays to add new projects and thumbnails.
-- Contact form is frontend-only and validates input. To send real emails later, add a backend endpoint and change form submission to POST.
+- Contact form submissions are delivered to `bittu.ov2@gmail.com` through FormSubmit. FormSubmit requires one-time email activation before the first message is delivered.
 - Replace [College Name], [Location], [Year] in the Education section with your details.
 - Social links in the footer are placeholders. Add real URLs when available.
 

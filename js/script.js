@@ -254,19 +254,24 @@ document.addEventListener('DOMContentLoaded', function(){
     setTimeout(()=>update(container.getBoundingClientRect().left + container.getBoundingClientRect().width/2),100);
   });
 
-  // Contact form validation (frontend only)
+  // Validate before handing the form to FormSubmit for email delivery.
   const form = document.getElementById('contact-form');
   const feedback = document.getElementById('form-feedback');
   form?.addEventListener('submit', (e)=>{
-    e.preventDefault();
     const name = form.name.value.trim();
     const email = form.email.value.trim();
     const message = form.message.value.trim();
-    if(!name || !email || !message){feedback.textContent='Please fill required fields.';feedback.style.color='tomato';return}
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){feedback.textContent='Please enter a valid email.';feedback.style.color='tomato';return}
-    feedback.style.color='var(--accent)';
-    feedback.textContent = 'Thanks! Your message is ready to be sent.';
-    form.reset();
+    if(!name || !email || !message){
+      e.preventDefault();
+      feedback.textContent='Please fill required fields.';
+      feedback.style.color='tomato';
+      return;
+    }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+      e.preventDefault();
+      feedback.textContent='Please enter a valid email.';
+      feedback.style.color='tomato';
+    }
   });
 
   // Active nav on scroll
