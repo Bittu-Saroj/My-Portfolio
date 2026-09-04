@@ -25,16 +25,25 @@ document.addEventListener('DOMContentLoaded', function(){
   }).catch(()=>{});
 
   // Software & Technology tools managed from the admin panel.
-  fetch('admin/api-tools.php').then(r=>r.ok?r.json():[]).then(tools=>{
+  const fallbackTools = [
+    {title:'Adobe Photoshop',description:'Photo editing & compositing',image:'assets/images/tools/photoshop.webp'},
+    {title:'Adobe Lightroom',description:'Color grading',image:'assets/images/tools/lightroom.webp'},
+    {title:'Adobe Premiere Pro',description:'Comfortable - short edits & reels',image:'assets/images/tools/premiere.jpg'},
+    {title:'Canva',description:'Fast layouts & social posts',image:'assets/images/tools/canva.webp'},
+    {title:'PHP / MySQL',description:'Working knowledge - web apps',image:'assets/images/tools/php-mysql.png'},
+    {title:'HTML / CSS / JS',description:'Responsive frontends & backends',image:'assets/images/tools/web-stack.jpg'}
+  ];
+  const renderTools = tools => {
     const grid=document.querySelector('.skills-grid'); if(!grid) return;
     grid.innerHTML='';
-    if(!Array.isArray(tools)) return;
+    if(!Array.isArray(tools) || !tools.length) tools = fallbackTools;
     tools.forEach(tool=>{
       const item=document.createElement('div'); item.className='skill';
       if(tool.image){const img=document.createElement('img');img.src=tool.image;img.alt='';img.style.cssText='width:42px;height:42px;object-fit:contain;background:#fff;border-radius:6px;padding:4px';item.appendChild(img);}
       const body=document.createElement('div'); const title=document.createElement('strong'); title.textContent=tool.title||''; const desc=document.createElement('p'); desc.className='muted'; desc.textContent=tool.description||''; body.append(title,desc); item.appendChild(body); grid.appendChild(item);
     });
-  }).catch(()=>{});
+  };
+  fetch('admin/api-tools.php').then(r=>r.ok?r.json():[]).then(renderTools).catch(()=>renderTools(fallbackTools));
   // Nav toggle
   const navToggle = document.querySelector('.nav-toggle');
   const navMenu = document.querySelector('.nav-menu');
