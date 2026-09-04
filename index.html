@@ -21,7 +21,10 @@
 <body>
   <header class="site-header">
     <nav class="nav container">
-      <a class="brand" href="#">SAROJ PATHAK</a>
+      <a class="brand" href="#home" aria-label="Saroj Pathak home">
+        <span class="brand-mark" aria-hidden="true">SP</span>
+        <span class="brand-name">SAROJ PATHAK</span>
+      </a>
       <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation">
         <span class="hamburger"></span>
       </button>
@@ -37,10 +40,12 @@
           <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
         <div class="nav-cta">
-          <a class="btn btn-cta" href="#contact">Let's Work Together</a>
+          <span class="nav-status"><i aria-hidden="true"></i>Available for select projects</span>
+          <a class="btn btn-cta" href="#contact">Let's Work Together <span aria-hidden="true">↗</span></a>
         </div>
       </div>
     </nav>
+    <div class="nav-progress" aria-hidden="true"><span></span></div>
   </header>
 
   <main>

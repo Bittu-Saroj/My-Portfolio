@@ -3,7 +3,13 @@ document.addEventListener('DOMContentLoaded', function(){
   const header = document.querySelector('.site-header');
   const updateHeader = () => header?.classList.toggle('scrolled', window.scrollY > 16);
   updateHeader();
-  window.addEventListener('scroll', updateHeader, {passive:true});
+  const progressBar = document.querySelector('.nav-progress span');
+  const updateProgress = () => {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    if(progressBar) progressBar.style.width = `${scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0}%`;
+  };
+  window.addEventListener('scroll', () => { updateHeader(); updateProgress(); }, {passive:true});
+  updateProgress();
   fetch('admin/api-settings.php').then(r=>r.ok?r.json():{}).then(settings=>{
     const setText=(selector,key)=>{const el=document.querySelector(selector); if(el && settings[key]) el.textContent=settings[key]};
     setText('.brand','site_name'); setText('.eyebrow','hero_eyebrow'); setText('.hero-sub','hero_sub'); setText('.hero-intro','hero_intro');
@@ -73,6 +79,17 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     })
   });
+
+  const navLinks = [...document.querySelectorAll('.nav-link')];
+  const navSections = navLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+  const activeSectionObserver = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        navLinks.forEach(link=>link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`));
+      }
+    });
+  },{rootMargin:'-35% 0px -55% 0px',threshold:0});
+  navSections.forEach(section=>activeSectionObserver.observe(section));
 
   // Reveal on scroll
   const observer = new IntersectionObserver((entries)=>{
