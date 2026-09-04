@@ -76,7 +76,7 @@ An admin area has been added at /admin to manage photos, videos, and the creativ
    INSERT INTO users (username, password_hash, email) VALUES ('admin', '<hash>', 'you@example.com');
 
 5. Ensure the uploads directories are writable: assets/uploads/photos and assets/uploads/videos.
-6. Open https://your-host/admin/login.php and sign in.
+6. Open https://www.sarojpathak7.com.np/admin/login.php and sign in.
 
 Public API endpoints
 --------------------
@@ -94,4 +94,4 @@ Tell me what to do next and I'll proceed.
 
 Hosting
 -------
-GitHub Pages can serve the static `index.html` portfolio, but it cannot execute the PHP admin area or connect to MySQL. For the complete editable site, deploy this repository to a PHP/MySQL host and set `DB_HOST`, `DB_NAME`, `DB_USER`, and `DB_PASS` as environment variables. Never commit production credentials.
+GitHub Pages serves the static portfolio at https://www.sarojpathak7.com.np/, but it cannot execute the PHP admin area or connect to MySQL. For the complete editable site, deploy this repository to a PHP/MySQL host and set `DB_HOST`, `DB_NAME`, `DB_USER`, and `DB_PASS` as environment variables. Never commit production credentials.
