@@ -33,9 +33,9 @@ document.addEventListener('DOMContentLoaded', function(){
   // Software & Technology tools managed from the admin panel.
   const fallbackTools = [
     {title:'Adobe Photoshop',description:'Photo editing & compositing',image:'assets/images/tools/photoshop.webp'},
-    {title:'Adobe Lightroom',description:'Color grading',image:'assets/images/tools/lightroom.webp'},
-    {title:'Adobe Premiere Pro',description:'Comfortable - short edits & reels',image:'assets/images/tools/premiere.jpg'},
-    {title:'Canva',description:'Fast layouts & social posts',image:'assets/images/tools/canva.webp'},
+    {title:'Adobe Lightroom',description:'Color grading',image:'assets/images/tools/canva.webp'},
+    {title:'Adobe Premiere Pro',description:'Comfortable - short edits & reels',image:'assets/images/tools/lightroom.webp'},
+    {title:'Canva',description:'Fast layouts & social posts',image:'assets/images/tools/premiere.jpg'},
     {title:'PHP / MySQL',description:'Working knowledge - web apps',image:'assets/images/tools/php-mysql.png'},
     {title:'HTML / CSS / JS',description:'Responsive frontends & backends',image:'assets/images/tools/web-stack.jpg'}
   ];
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!Array.isArray(tools) || !tools.length) tools = fallbackTools;
     tools.forEach(tool=>{
       const item=document.createElement('div'); item.className='skill';
-      if(tool.image){const img=document.createElement('img');img.src=tool.image;img.alt='';img.style.cssText='width:42px;height:42px;object-fit:contain;background:#fff;border-radius:6px;padding:4px';item.appendChild(img);}
+      if(tool.image){const img=document.createElement('img');img.className='skill-icon';img.src=tool.image;img.alt='';item.appendChild(img);}
       const body=document.createElement('div'); const title=document.createElement('strong'); title.textContent=tool.title||''; const desc=document.createElement('p'); desc.className='muted'; desc.textContent=tool.description||''; body.append(title,desc); item.appendChild(body); grid.appendChild(item);
     });
   };
