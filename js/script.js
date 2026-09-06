@@ -52,9 +52,10 @@ document.addEventListener('DOMContentLoaded', function(){
   fetch('admin/api-tools.php').then(r=>r.ok?r.json():[]).then(renderTools).catch(()=>renderTools(fallbackTools));
   // Nav toggle
   const navToggle = document.querySelector('.nav-toggle');
-  const navMenu = document.querySelector('.nav-menu');
+  const navMenu = document.querySelector('.mobile-nav-menu');
   const mobileBackdrop = document.querySelector('.mobile-nav-backdrop');
   const megaTriggers = [...document.querySelectorAll('.nav-trigger')];
+  const mobileTriggers = [...document.querySelectorAll('.mobile-nav-trigger')];
   const closeMegaMenus = () => megaTriggers.forEach(trigger=>{
     trigger.setAttribute('aria-expanded','false');
     trigger.nextElementSibling?.classList.remove('open');
@@ -70,6 +71,21 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     });
   });
+  const closeMobileMenus = () => mobileTriggers.forEach(trigger=>{
+    trigger.setAttribute('aria-expanded','false');
+    trigger.nextElementSibling?.classList.remove('open');
+  });
+  mobileTriggers.forEach(trigger=>{
+    trigger.addEventListener('click', event=>{
+      event.preventDefault();
+      const wasOpen = trigger.getAttribute('aria-expanded') === 'true';
+      closeMobileMenus();
+      if(!wasOpen){
+        trigger.setAttribute('aria-expanded','true');
+        trigger.nextElementSibling?.classList.add('open');
+      }
+    });
+  });
   navToggle?.addEventListener('click', ()=>{
     const expanded = navToggle.getAttribute('aria-expanded') === 'true';
     navToggle.setAttribute('aria-expanded', String(!expanded));
@@ -77,10 +93,11 @@ document.addEventListener('DOMContentLoaded', function(){
     navMenu.classList.toggle('open');
     mobileBackdrop?.classList.toggle('open', !expanded);
     document.body.classList.toggle('mobile-nav-open', !expanded);
-    if(expanded) closeMegaMenus();
+    if(expanded){ closeMegaMenus(); closeMobileMenus(); }
   });
   document.addEventListener('click', (event)=>{
     if(!event.target.closest('.nav-dropdown')) closeMegaMenus();
+    if(!event.target.closest('.mobile-nav-dropdown')) closeMobileMenus();
     if(navMenu?.classList.contains('open') && !navMenu.contains(event.target) && !navToggle.contains(event.target)){
       navMenu.classList.remove('open'); navToggle.setAttribute('aria-expanded','false');
       navToggle.setAttribute('aria-label','Open navigation');
@@ -91,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function(){
   document.addEventListener('keydown', event=>{
     if(event.key === 'Escape'){
       closeMegaMenus();
+      closeMobileMenus();
       navMenu?.classList.remove('open');
       navToggle?.setAttribute('aria-expanded','false');
       navToggle?.setAttribute('aria-label','Open navigation');
@@ -105,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function(){
     mobileBackdrop.classList.remove('open');
     document.body.classList.remove('mobile-nav-open');
     closeMegaMenus();
+    closeMobileMenus();
   });
 
   // Smooth scroll for internal links
@@ -117,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function(){
           e.preventDefault();
           el.scrollIntoView({behavior:'smooth',block:'start'});
           // close mobile nav
-          if(navMenu.classList.contains('open')){navMenu.classList.remove('open');navToggle.setAttribute('aria-expanded','false');navToggle.setAttribute('aria-label','Open navigation');mobileBackdrop?.classList.remove('open');document.body.classList.remove('mobile-nav-open');closeMegaMenus()}
+          if(navMenu?.classList.contains('open')){navMenu.classList.remove('open');navToggle.setAttribute('aria-expanded','false');navToggle.setAttribute('aria-label','Open navigation');mobileBackdrop?.classList.remove('open');document.body.classList.remove('mobile-nav-open');closeMegaMenus();closeMobileMenus()}
         }
       }
     })
