@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function(){
   if(videoGrid) videoGrid.innerHTML = '<div class="loading-state">Loading video projects…</div>';
   function renderVideoFallback(){
     if(!videoGrid) return;
-    videoGrid.innerHTML='<div class="video-card placeholder"><div class="video-thumb">Video Coming Soon</div><h4>Project Placeholder</h4><p class="muted">Premiere Pro / Reels</p></div>';
+    videoGrid.innerHTML='<article class="video-feature-card"><img src="assets/images/tools/premiere-pro.svg" alt="Adobe Premiere Pro" class="video-pr-icon"><div><span class="video-kicker">Featured Project</span><h3>Video Coming Soon</h3><p>Project Placeholder</p><small>Premiere Pro / Reels</small></div><span class="video-arrow" aria-hidden="true">→</span></article>';
   }
   fetch('admin/api-videos.php').then(r=>{if(!r.ok) throw new Error('API unavailable'); return r.json();}).then(videos=>{
     if(!videoGrid) return;
