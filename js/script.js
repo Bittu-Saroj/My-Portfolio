@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Photography grid - try to fetch from admin API, fallback to local placeholders
   const photos = [
-    'assets/images/photography/portrait-01.svg','assets/images/photography/landscape-01.svg','assets/images/photography/event-01.svg','assets/images/photography/product-01.svg'
+    'assets/images/photography/portrait-01.png','assets/images/photography/landscape-01.svg','assets/images/photography/event-01.svg','assets/images/photography/product-01.svg'
   ];
   const photoGrid = document.getElementById('photo-grid');
   if(photoGrid) photoGrid.innerHTML = '<div class="loading-state">Loading photographs…</div>';
