@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Saroj Pathak monogram</title>
+  <desc id="desc">An interlocking SP monogram in white on a black rounded square.</desc>
+  <rect width="128" height="128" rx="28" fill="#111827"/>
+  <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="12">
+    <path d="M65 39C56 31 42 32 36 42c-7 13 5 19 19 23 14 4 17 11 10 20-8 11-23 10-32 1"/>
+    <path d="M77 94V35h16c14 0 21 7 21 17s-8 17-21 17H77"/>
+  </g>
+</svg>
