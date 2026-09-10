@@ -163,8 +163,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Design projects: fallback local data, then attempt to load from admin API
   let designProjects = [
-    {title:'Liceria Coffee Shop — Fresh On The Menu',category:'Social Media Design',image:'assets/images/design/liceria-coffee-shop-social-01.png',tools:['Canva']},
-    {title:'Fashion Editorial Poster',category:'poster',image:'assets/images/design/BITTU1photoshop-face-denoise-upscale-3.5x.png',tools:['Photoshop'],description:'Creative fashion editorial poster created and enhanced in Adobe Photoshop, focusing on portrait retouching, face enhancement, denoising, and image upscaling.'},
+    {title:'Liceria Coffee Shop — Fresh On The Menu',category:'Social Media Design',image:'assets/images/design/liceria-coffee-shop-social-01.png',tools:['Canva'],description:'Creative promotional social media poster for Liceria Coffee Shop featuring a cold cappuccino coffee campaign, combining product-focused visual composition, coffee-themed elements, and bold promotional typography.'},
+    {title:'Fashion Editorial Poster',category:'poster',image:'assets/images/design/BITTU1photoshop-face-denoise-upscale-3.5x.jpg',tools:['Photoshop'],description:'Creative fashion editorial poster created and enhanced in Adobe Photoshop, focusing on portrait retouching, face enhancement, denoising, and image upscaling.'},
     {title:'Branding Placeholder',category:'branding',image:'assets/images/design/branding-01.svg',tools:['Illustrator']},
     {title:'Ad Placeholder',category:'ad',image:'assets/images/design/ad-01.svg',tools:['Photoshop']}
   ];
@@ -178,15 +178,15 @@ document.addEventListener('DOMContentLoaded', function(){
     projects.forEach(p=>{
       const toolsArr = Array.isArray(p.tools) ? p.tools : (p.tools ? String(p.tools).split(',') : []);
       const imgSrc = p.image || (p.filename ? p.filename : 'assets/images/design/social-01.svg');
-      const card = document.createElement('div'); card.className = 'project-card';
+      const card = document.createElement('div'); card.className = 'project-card' + (p.category === 'poster' ? ' project-card--poster' : '');
       const imgEl = document.createElement('img');
-      imgEl.src = imgSrc; imgEl.alt = p.title || 'Project'; imgEl.loading = 'lazy';
+      imgEl.src = imgSrc; imgEl.alt = p.title || 'Project'; imgEl.loading = 'lazy'; imgEl.decoding = 'async'; imgEl.className = 'project-image';
       const body = document.createElement('div'); body.className = 'project-body';
       const title = document.createElement('h4'); title.textContent = p.title || '';
       const category = document.createElement('p'); category.className = 'muted'; category.textContent = p.category || '';
       const toolList = document.createElement('p'); toolList.className = 'muted'; toolList.textContent = toolsArr.join(', ');
       body.append(title, category, toolList);
-      if(p.description){const description=document.createElement('p'); description.textContent=p.description; body.appendChild(description);}
+      if(p.description){const description=document.createElement('p'); description.className='project-description'; description.textContent=p.description; body.appendChild(description);}
       card.append(imgEl, body);
       imgEl.addEventListener('click', ()=>openLightbox(imgSrc, p.title || ''));
       designGrid.appendChild(card);
