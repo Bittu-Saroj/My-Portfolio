@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function(){
     setText('.brand','site_name');
     if(settings.about_text){const about=document.querySelector('#about > .section-grid > div'); const p=about?.querySelectorAll('p'); if(p && p.length>1) p[1].textContent=settings.about_text;}
     setText('#design .section-head .muted','design_intro'); setText('#photography .section-head .muted','photo_intro');
-    setText('#editing h2','before_title'); setText('#editing > .muted','before_intro');
     setText('#video .section-head .muted','video_intro'); setText('#projects .section-head .muted','projects_intro');
     setText('#contact h2','contact_title'); setText('#contact .contact-grid > div:first-child > .muted','contact_intro');
     const contactMap={email:['#contact a[href^="mailto:"]','mailto:'],phone:['#contact .contact-list li:nth-child(2)', ''],instagram_label:['#contact .contact-list li:nth-child(3)',''],facebook_label:['#contact .contact-list li:nth-child(4)','']};
@@ -319,12 +318,15 @@ document.addEventListener('DOMContentLoaded', function(){
     const imgBefore = document.createElement('img'); imgBefore.src = before; imgBefore.className='before';
     const imgAfter = document.createElement('img'); imgAfter.src = after; imgAfter.className='after';
     container.appendChild(imgBefore); container.appendChild(imgAfter);
+    const rawLabel=document.createElement('span'); rawLabel.className='comparison-label comparison-label--raw'; rawLabel.textContent='RAW';
+    const editedLabel=document.createElement('span'); editedLabel.className='comparison-label comparison-label--edited'; editedLabel.textContent='EDITED';
+    container.append(rawLabel,editedLabel);
     const handle = document.createElement('div'); handle.className='handle'; container.appendChild(handle);
     let dragging=false; const clamp = (v,min,max)=>Math.max(min,Math.min(max,v));
     function update(x){
       const rect = container.getBoundingClientRect();
       const pct = clamp((x-rect.left)/rect.width,0,1);
-      imgAfter.style.clipPath = `inset(0 ${100- pct*100}% 0 0)`;
+      imgAfter.style.clipPath = `inset(0 0 0 ${pct*100}%)`;
       handle.style.left = (pct*100)+'%';
     }
     container.addEventListener('pointerdown', (e)=>{dragging=true;container.setPointerCapture(e.pointerId);update(e.clientX)});
