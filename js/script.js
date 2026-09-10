@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Design projects: fallback local data, then attempt to load from admin API
   let designProjects = [
-    {title:'Social Post Placeholder',category:'social',image:'assets/images/design/social-01.svg',tools:['Canva']},
+    {title:'Liceria Coffee Shop \u2014 Fresh On The Menu',category:'Social Media Design',image:'assets/images/design/liceria-coffee-shop-social-01.png',tools:['Canva']},
     {title:'Poster Placeholder',category:'poster',image:'assets/images/design/poster-01.svg',tools:['Photoshop']},
     {title:'Branding Placeholder',category:'branding',image:'assets/images/design/branding-01.svg',tools:['Illustrator']},
     {title:'Ad Placeholder',category:'ad',image:'assets/images/design/ad-01.svg',tools:['Photoshop']}
