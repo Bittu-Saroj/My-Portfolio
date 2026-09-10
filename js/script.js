@@ -12,8 +12,7 @@ document.addEventListener('DOMContentLoaded', function(){
   updateProgress();
   fetch('admin/api-settings.php').then(r=>r.ok?r.json():{}).then(settings=>{
     const setText=(selector,key)=>{const el=document.querySelector(selector); if(el && settings[key]) el.textContent=settings[key]};
-    setText('.brand','site_name'); setText('.eyebrow','hero_eyebrow'); setText('.hero-sub','hero_sub'); setText('.hero-intro','hero_intro');
-    if(settings.hero_title){const title=document.querySelector('.hero-title'); title.innerHTML=''; settings.hero_title.split(/\r?\n/).forEach((line,i)=>{if(i) title.appendChild(document.createElement('br')); title.appendChild(document.createTextNode(line))});}
+    setText('.brand','site_name');
     if(settings.about_text){const about=document.querySelector('#about > .section-grid > div'); const p=about?.querySelectorAll('p'); if(p && p.length>1) p[1].textContent=settings.about_text;}
     setText('#design .section-head .muted','design_intro'); setText('#photography .section-head .muted','photo_intro');
     setText('#editing h2','before_title'); setText('#editing > .muted','before_intro');
