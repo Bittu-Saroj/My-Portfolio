@@ -1,5 +1,9 @@
 # Saroj Pathak Portfolio - Complete Project Analysis
 
+> Historical snapshot. Several claims describe a different local deployment and
+> do not match this checkout. See ../../README.md and ../PROJECT_AUDIT.md for the
+> current architecture, findings, and verification limits. Paths below are historical.
+
 ## 1. Scope
 
 This document is the complete top-to-bottom analysis of the repository at the time of review. It covers every project file, its purpose, its relationships, the runtime flow, security controls, deployment behavior, and known placeholder content.

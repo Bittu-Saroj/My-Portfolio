@@ -1,6 +1,6 @@
 <?php
 // admin/inc/config.php
-// Copy this file to admin/inc/config.php and update DB credentials or set env variables.
+// Configure database credentials through the host environment.
 
 // Use environment variables in production; fall back to these placeholders.
 $db_host = getenv('DB_HOST') ?: 'localhost';
@@ -18,15 +18,15 @@ try {
     $pdo = new PDO("mysql:host={$db_host};dbname={$db_name};charset=utf8mb4", $db_user, $db_pass, $options);
 } catch (Exception $e) {
     http_response_code(500);
-    echo "Database connection failed: " . htmlspecialchars($e->getMessage());
+    echo "Database connection failed.";
     exit;
 }
 
 // Paths - adjust if you move files
-define('UPLOAD_DIR_PHOTOS', realpath(__DIR__ . '/../../assets/uploads/photos') . DIRECTORY_SEPARATOR);
-define('UPLOAD_DIR_VIDEOS', realpath(__DIR__ . '/../../assets/uploads/videos') . DIRECTORY_SEPARATOR);
-define('UPLOAD_DIR_PROJECTS', realpath(__DIR__ . '/../../assets/uploads/projects') . DIRECTORY_SEPARATOR);
-define('UPLOAD_DIR_TOOLS', realpath(__DIR__ . '/../../assets/uploads/tools') . DIRECTORY_SEPARATOR);
+define('UPLOAD_DIR_PHOTOS', dirname(__DIR__, 2) . '/assets/uploads/photos/');
+define('UPLOAD_DIR_VIDEOS', dirname(__DIR__, 2) . '/assets/uploads/videos/');
+define('UPLOAD_DIR_PROJECTS', dirname(__DIR__, 2) . '/assets/uploads/projects/');
+define('UPLOAD_DIR_TOOLS', dirname(__DIR__, 2) . '/assets/uploads/tools/');
 
 // Ensure directories exist
 if (!is_dir(UPLOAD_DIR_PHOTOS)) mkdir(UPLOAD_DIR_PHOTOS, 0755, true);

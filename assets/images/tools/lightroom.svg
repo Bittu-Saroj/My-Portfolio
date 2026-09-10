@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Adobe Lightroom">
+  <rect width="64" height="64" rx="12" fill="#001e36"/>
+  <g fill="#31a8ff">
+    <path d="M14 16h6v27h15v6H14z"/>
+    <path d="M39 25h6v4c2-3 5-4 9-4v6c-4 0-7 1-9 4v14h-6z"/>
+  </g>
+</svg>

@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Software & Technology tools managed from the admin panel.
   const fallbackTools = [
     {title:'Adobe Photoshop',description:'Photo editing & compositing',image:'assets/images/tools/photoshop.webp'},
-    {title:'Adobe Lightroom',description:'Color grading',image:'assets/images/tools/lightroom.webp'},
+    {title:'Adobe Lightroom',description:'Color grading',image:'assets/images/tools/lightroom.svg'},
     {title:'Adobe Premiere Pro',description:'Comfortable - short edits & reels',image:'assets/images/tools/canva.webp'},
     {title:'Canva',description:'Fast layouts & social posts',image:'assets/images/tools/premiere.jpg'},
     {title:'PHP / MySQL',description:'Working knowledge - web apps',image:'assets/images/tools/php-mysql.png'},
@@ -163,8 +163,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Design projects: fallback local data, then attempt to load from admin API
   let designProjects = [
-    {title:'Liceria Coffee Shop \u2014 Fresh On The Menu',category:'Social Media Design',image:'assets/images/design/liceria-coffee-shop-social-01.png',tools:['Canva']},
-    {title:'Poster Placeholder',category:'poster',image:'assets/images/design/poster-01.svg',tools:['Photoshop']},
+    {title:'Liceria Coffee Shop — Fresh On The Menu',category:'Social Media Design',image:'assets/images/design/liceria-coffee-shop-social-01.png',tools:['Canva']},
+    {title:'Fashion Editorial Poster',category:'poster',image:'assets/images/design/BITTU1photoshop-face-denoise-upscale-3.5x.png',tools:['Photoshop'],description:'Creative fashion editorial poster created and enhanced in Adobe Photoshop, focusing on portrait retouching, face enhancement, denoising, and image upscaling.'},
     {title:'Branding Placeholder',category:'branding',image:'assets/images/design/branding-01.svg',tools:['Illustrator']},
     {title:'Ad Placeholder',category:'ad',image:'assets/images/design/ad-01.svg',tools:['Photoshop']}
   ];
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Photography grid - try to fetch from admin API, fallback to local placeholders
   const photos = [
-    'assets/images/photography/portrait-01.svg','assets/images/photography/landscape-01.svg','assets/images/photography/event-01.svg','assets/images/photography/product-01.svg'
+    'assets/images/photography/portrait-01.jpg','assets/images/photography/landscape-01.svg','assets/images/photography/event-01.svg','assets/images/photography/product-01.svg'
   ];
   const photoGrid = document.getElementById('photo-grid');
   if(photoGrid) photoGrid.innerHTML = '<div class="loading-state">Loading photographs…</div>';
@@ -222,11 +222,13 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!photoGrid) return;
     photoGrid.innerHTML = '';
     if(!list.length){ photoGrid.innerHTML='<div class="empty-state">Photography will be published here soon.</div>'; return; }
-    list.forEach(p=>{
+    list.forEach((p, index)=>{
       const img = document.createElement('img');
       img.src = p.image || p;
       img.alt = p.title || 'Photography placeholder';
       img.loading = 'lazy';
+      img.decoding = 'async';
+      if(index === 0) img.fetchPriority = 'high';
       img.addEventListener('click', ()=>openLightbox(img.src, p.title || 'Photography'));
       photoGrid.appendChild(img);
     });

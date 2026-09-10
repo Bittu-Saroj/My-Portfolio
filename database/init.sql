@@ -1,4 +1,4 @@
--- admin/init.sql
+-- database/init.sql
 -- Run this SQL in your MySQL server (phpMyAdmin or CLI) to create the necessary tables.
 
 CREATE TABLE IF NOT EXISTS users (

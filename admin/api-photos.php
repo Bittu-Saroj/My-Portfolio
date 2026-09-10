@@ -4,7 +4,6 @@ require_once __DIR__ . '/inc/config.php';
 header('Content-Type: application/json; charset=utf-8');
 $stmt = $pdo->query("SELECT id, filename, title, alt_text, category FROM photos WHERE category IS NULL OR category = '' OR category <> 'cover' ORDER BY sort_order DESC, created_at DESC");
 $rows = $stmt->fetchAll();
-$base = dirname(__DIR__);
 $out = [];
 foreach($rows as $r){
     $out[] = [
