@@ -30,9 +30,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Software & Technology tools managed from the admin panel.
   const fallbackTools = [
-    {title:'Adobe Photoshop',description:'Photo editing & compositing',image:'assets/images/tools/photoshop.webp'},
+    {title:'Adobe Photoshop',description:'Photo editing & compositing',image:'assets/images/tools/photoshop.svg'},
     {title:'Adobe Lightroom',description:'Color grading',image:'assets/images/tools/lightroom.svg'},
-    {title:'Adobe Premiere Pro',description:'Comfortable - short edits & reels',image:'assets/images/tools/canva.webp'},
+    {title:'Adobe Premiere Pro',description:'Comfortable - short edits & reels',image:'assets/images/tools/premiere-pro.svg'},
+    {title:'Adobe After Effects',description:'Basic animation & motion graphics',image:'assets/images/tools/after-effects.svg'},
     {title:'Canva',description:'Fast layouts & social posts',image:'assets/images/tools/premiere.jpg'},
     {title:'PHP / MySQL',description:'Working knowledge - web apps',image:'assets/images/tools/php-mysql.png'},
     {title:'HTML / CSS / JS',description:'Responsive frontends & backends',image:'assets/images/tools/web-stack.jpg'}
