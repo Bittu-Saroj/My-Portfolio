@@ -12,19 +12,34 @@ document.addEventListener('DOMContentLoaded', function(){
   updateProgress();
   fetch('admin/api-settings.php').then(r=>r.ok?r.json():{}).then(settings=>{
     const setText=(selector,key)=>{const el=document.querySelector(selector); if(el && settings[key]) el.textContent=settings[key]};
+    const safeHttpUrl=value=>{
+      if(typeof value!=='string' || !value.trim()) return null;
+      try{const url=new URL(value,window.location.origin);return ['http:','https:'].includes(url.protocol)?url.href:null;}catch{return null;}
+    };
+    const setContactText=(selector,label,value)=>{
+      const item=document.querySelector(selector); if(!item) return;
+      const heading=document.createElement('strong'); heading.textContent=label+':';
+      item.replaceChildren(heading,document.createTextNode(' '+String(value)));
+    };
+    const setContactLink=(selector,label,urlValue,labelValue)=>{
+      const url=safeHttpUrl(urlValue); const item=document.querySelector(selector); if(!url || !item) return;
+      const heading=document.createElement('strong'); heading.textContent=label+':';
+      const link=document.createElement('a'); link.href=url; link.target='_blank'; link.rel='noopener'; link.textContent=labelValue||url;
+      item.replaceChildren(heading,document.createTextNode(' '),link);
+    };
     setText('.brand','site_name');
     if(settings.about_text){const about=document.querySelector('#about > .section-grid > div'); const p=about?.querySelectorAll('p'); if(p && p.length>1) p[1].textContent=settings.about_text;}
     setText('#design .section-head .muted','design_intro'); setText('#photography .section-head .muted','photo_intro');
     setText('#video .section-head .muted','video_intro'); setText('#projects .section-head .muted','projects_intro');
     setText('#contact h2','contact_title'); setText('#contact .contact-grid > div:first-child > .muted','contact_intro');
     const contactMap={email:['#contact a[href^="mailto:"]','mailto:'],phone:['#contact .contact-list li:nth-child(2)', ''],instagram_label:['#contact .contact-list li:nth-child(3)',''],facebook_label:['#contact .contact-list li:nth-child(4)','']};
-    if(settings.email){const a=document.querySelector(contactMap.email[0]); if(a){a.textContent=settings.email;a.href='mailto:'+settings.email;}}
-    if(settings.phone){const el=document.querySelector(contactMap.phone[0]); if(el) el.innerHTML='<strong>WhatsApp:</strong> '+settings.phone;}
-    if(settings.instagram_url){const el=document.querySelector('#contact .contact-list li:nth-child(3)'); if(el) el.innerHTML='<strong>Instagram:</strong> <a href="'+settings.instagram_url+'" target="_blank" rel="noopener">'+(settings.instagram_label||settings.instagram_url)+'</a>';}
-    if(settings.facebook_url){const el=document.querySelector('#contact .contact-list li:nth-child(4)'); if(el) el.innerHTML='<strong>Facebook:</strong> <a href="'+settings.facebook_url+'" target="_blank" rel="noopener">'+(settings.facebook_label||settings.facebook_url)+'</a>';}
-    const hero=settings.cover_image&&document.querySelector('.profile-photo'); if(hero) hero.src=settings.cover_image;
+    if(settings.email){const email=String(settings.email).trim();const a=document.querySelector(contactMap.email[0]); if(a && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){a.textContent=email;a.href=new URL('mailto:'+email).href;}}
+    if(settings.phone) setContactText(contactMap.phone[0],'WhatsApp',settings.phone);
+    if(settings.instagram_url) setContactLink('#contact .contact-list li:nth-child(3)','Instagram',settings.instagram_url,settings.instagram_label||settings.instagram_url);
+    if(settings.facebook_url) setContactLink('#contact .contact-list li:nth-child(4)','Facebook',settings.facebook_url,settings.facebook_label||settings.facebook_url);
+    const heroUrl=safeHttpUrl(settings.cover_image); const hero=heroUrl&&document.querySelector('.profile-photo'); if(hero) hero.src=heroUrl;
     const pair=document.querySelector('.before-after'); if(pair){if(settings.before_image) pair.dataset.before=settings.before_image;if(settings.after_image) pair.dataset.after=settings.after_image;}
-    ['instagram','facebook','github','linkedin'].forEach(name=>{if(settings[name+'_url']) document.querySelectorAll('.socials a[aria-label="'+name[0].toUpperCase()+name.slice(1)+'"]').forEach(a=>a.href=settings[name+'_url'])});
+    ['instagram','facebook','github','linkedin'].forEach(name=>{const url=safeHttpUrl(settings[name+'_url']);if(url) document.querySelectorAll('.socials a[aria-label="'+name[0].toUpperCase()+name.slice(1)+'"]').forEach(a=>a.href=url)});
   }).catch(()=>{});
 
   // Software & Technology tools managed from the admin panel.
