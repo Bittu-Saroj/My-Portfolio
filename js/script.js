@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function(){
   let designProjects = [
     {title:'Liceria Coffee Shop — Fresh On The Menu',category:'Social Media Design',image:'assets/images/design/liceria-coffee-shop-social-01.png',tools:['Canva'],description:'Creative promotional social media poster for Liceria Coffee Shop featuring a cold cappuccino coffee campaign, combining product-focused visual composition, coffee-themed elements, and bold promotional typography.'},
     {title:'Fashion Editorial Poster',category:'poster',image:'assets/images/design/BITTU1photoshop-face-denoise-upscale-3.5x.jpg',tools:['Photoshop'],description:'Creative fashion editorial poster created and enhanced in Adobe Photoshop, focusing on portrait retouching, face enhancement, denoising, and image upscaling.'},
-    {title:'Branding Placeholder',category:'branding',image:'assets/images/design/branding-01.svg',tools:['Illustrator']},
+    {title:'Branding Placeholder',category:'branding',image:'assets/images/design/pixels-photography.png',tools:['Illustrator']},
     {title:'Ad Placeholder',category:'ad',image:'assets/images/design/ad-01.svg',tools:['Photoshop']}
   ];
 
