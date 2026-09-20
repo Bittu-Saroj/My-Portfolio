@@ -21,6 +21,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="css/style.css?v=73565ab" />
+  <style>
+    /* Compact Jaya Multiple Campus record card, aligned to the Education design system. */
+    #education .education-heading { gap: 1.05rem; margin-bottom: 1.75rem; }
+    #education .education-heading > span { width: 4rem; height: 3px; background: #d7a844; }
+    #education .education-heading h2 { font-size: clamp(2.5rem, 4.15vw, 3.55rem); letter-spacing: -.045em; }
+    #education .education-heading p { margin-top: .28rem; font-size: 1.02rem; }
+    #education .education-card { grid-template-columns: minmax(0, 1.36fr) minmax(310px, .86fr); gap: clamp(2rem, 4.15vw, 4rem); padding: clamp(2rem, 3.8vw, 3rem); border-radius: 23px; background: linear-gradient(125deg, #fffefa 0%, #fff 63%, #faf7ee 100%); box-shadow: 0 13px 30px rgba(22, 38, 61, .075); }
+    #education .education-primary { align-items: center; gap: 1.35rem; }
+    #education .education-icon { width: 5rem; height: 5rem; flex-basis: 5rem; font-size: 1.85rem; }
+    #education .education-copy { padding-left: 1.35rem; }
+    #education .education-copy h3 { font-size: clamp(1.8rem, 2.75vw, 2.28rem); letter-spacing: -.045em; }
+    #education .education-program { margin: .62rem 0 1.08rem; font-size: clamp(1rem, 1.6vw, 1.22rem); }
+    #education .education-meta { gap: 1.35rem; padding-left: clamp(1.5rem, 3.15vw, 2.7rem); }
+    #education .education-detail { gap: .95rem; }
+    #education .education-detail > i { width: 2.9rem; height: 2.9rem; flex-basis: 2.9rem; }
+    #education .education-detail p { font-size: .98rem; line-height: 1.43; }
+    @media (max-width: 820px) { #education .education-card { grid-template-columns: 1fr; gap: 1.65rem; } #education .education-meta { padding-top: 1.45rem; } }
+    @media (max-width: 560px) { #education .education-heading h2 { font-size: clamp(2.2rem, 11vw, 2.7rem); } #education .education-card { padding: 1.45rem; border-radius: 20px; } #education .education-primary { align-items: flex-start; } #education .education-icon { width: 3.7rem; height: 3.7rem; flex-basis: 3.7rem; font-size: 1.4rem; } #education .education-copy h3 { font-size: 1.55rem; } }
+  </style>
 </head>
 <body>
   <header class="site-header">
@@ -246,7 +265,7 @@
           <div class="education-copy">
             <h3>Jaya Multiple Campus</h3>
             <p class="education-program">Bachelor of Computer Applications (BCA)</p>
-            <div class="education-badges"><span>BCA</span><span>Level: 11 · +2 · Bachelor</span></div>
+            <div class="education-badges"><span>BCA</span><span>Level: 11 &middot; +2 &middot; Bachelor</span></div>
           </div>
         </div>
         <div class="education-meta">
