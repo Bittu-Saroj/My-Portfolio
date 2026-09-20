@@ -184,6 +184,12 @@ document.addEventListener('DOMContentLoaded', function(){
 
   const designGrid = document.getElementById('design-grid');
   if(designGrid) designGrid.innerHTML = '<div class="loading-state">Loading selected work…</div>';
+  function applyDesignAssetOverrides(projects){
+    return projects.map(project=> project.title === 'Branding Placeholder'
+      ? {...project, image:'assets/images/design/pixels-photography.png'}
+      : project
+    );
+  }
   function renderDesign(projects){
     if(!designGrid) return;
     designGrid.innerHTML = '';
@@ -208,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Try to fetch live projects from admin API, fallback to local designProjects
   fetch('admin/api-design.php').then(r=>{ if(!r.ok) throw new Error('Network response not ok'); return r.json(); }).then(data=>{
-    if(Array.isArray(data)){ designProjects = data; renderDesign(designProjects); }
+    if(Array.isArray(data)){ designProjects = applyDesignAssetOverrides(data); renderDesign(designProjects); }
     else renderDesign([]);
   }).catch(()=>{
     renderDesign(designProjects);
