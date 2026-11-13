@@ -11,12 +11,24 @@ from urllib.parse import quote
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.sessions import SessionMiddleware
 from sqlalchemy import URL, create_engine, text
 from sqlalchemy.exc import SQLAlchemyError
 
 ROOT = Path(__file__).resolve().parent.parent
 logger = logging.getLogger(__name__)
 app = FastAPI(title="Saroj Pathak Portfolio", docs_url=None, redoc_url=None)
+if os.getenv('ENABLE_EXPERIMENTAL_ADMIN') == 'true':
+    secret = os.getenv('SESSION_SECRET', '')
+    if len(secret) < 32:
+        raise RuntimeError('SESSION_SECRET must contain at least 32 characters')
+    app.add_middleware(SessionMiddleware, secret_key=secret, session_cookie='portfolio_session', same_site='lax', https_only=os.getenv('COOKIE_SECURE', 'true') == 'true', max_age=3600)
+    from .admin import router as admin_router
+    app.include_router(admin_router)
+
+    @app.get('/manage', include_in_schema=False)
+    def manage():
+        return FileResponse(ROOT / 'backend' / 'manage.html')
 url = URL.create(
     "mysql+pymysql",
     username=os.getenv("DB_USER", "portfolio"),

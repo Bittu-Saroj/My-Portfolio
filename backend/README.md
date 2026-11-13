@@ -5,9 +5,15 @@ JSON endpoints against the existing MySQL schema. It does not yet replace the PH
 admin login, management screens, file uploads, or database setup. Keep the existing
 site and database backed up and do not use this app as a full production replacement.
 
-`admin.py` contains work-in-progress admin API code. It is intentionally not
-mounted by `app.py`: session configuration, an admin interface, safe file uploads,
-and end-to-end security and MySQL tests are still required before it can be used.
+An experimental admin can be enabled locally with `ENABLE_EXPERIMENTAL_ADMIN=true`,
+`SESSION_SECRET` (at least 32 random characters), and `COOKIE_SECURE=false` for
+localhost. Open `/manage`. It supports the existing PHP bcrypt password hashes,
+editing settings and content, and uploading JPG, PNG, WebP, MP4, and WebM files.
+It remains disabled by default: complete MySQL integration, migration, security,
+and browser tests are required before using it with real data or on the internet.
+Uploaded files are never removed when a record is replaced or deleted.
+The isolated admin test uses an in-memory SQLite database and temporary files;
+it is not a substitute for verifying the existing MySQL schema and media backup.
 
 From the project root, install Python 3.10 or newer, install dependencies with
 `pip install -r backend/requirements.txt`, configure `DB_HOST`, `DB_PORT`,
