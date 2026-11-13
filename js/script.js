@@ -73,6 +73,14 @@ document.addEventListener('DOMContentLoaded', function(){
     trigger.setAttribute('aria-expanded','false');
     trigger.nextElementSibling?.classList.remove('open');
   });
+  const closeMobileNav = () => {
+    navMenu?.classList.remove('open');
+    navToggle?.setAttribute('aria-expanded','false');
+    navToggle?.setAttribute('aria-label','Open navigation');
+    mobileBackdrop?.classList.remove('open');
+    document.body.classList.remove('mobile-nav-open');
+    closeMobileMenus();
+  };
   megaTriggers.forEach(trigger=>{
     trigger.addEventListener('click', event=>{
       event.preventDefault();
@@ -120,14 +128,16 @@ document.addEventListener('DOMContentLoaded', function(){
   });
   document.addEventListener('keydown', event=>{
     if(event.key === 'Escape'){
+      const openTrigger = megaTriggers.find(trigger=>trigger.getAttribute('aria-expanded') === 'true');
+      const mobileWasOpen = navMenu?.classList.contains('open');
       closeMegaMenus();
-      closeMobileMenus();
-      navMenu?.classList.remove('open');
-      navToggle?.setAttribute('aria-expanded','false');
-      navToggle?.setAttribute('aria-label','Open navigation');
-      mobileBackdrop?.classList.remove('open');
-      document.body.classList.remove('mobile-nav-open');
+      closeMobileNav();
+      if(mobileWasOpen) navToggle?.focus(); else openTrigger?.focus();
     }
+  });
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', event=>{
+    if(event.matches) closeMobileNav();
+    closeMegaMenus();
   });
   mobileBackdrop?.addEventListener('click', ()=>{
     navMenu?.classList.remove('open');
@@ -144,6 +154,7 @@ document.addEventListener('DOMContentLoaded', function(){
     a.addEventListener('click', function(e){
       const href = this.getAttribute('href');
       if(href.startsWith('#')){
+        closeMegaMenus();
         const el = document.querySelector(href);
         if(el){
           e.preventDefault();

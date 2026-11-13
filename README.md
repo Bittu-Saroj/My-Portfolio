@@ -1,5 +1,13 @@
 # Saroj Pathak portfolio
 
+## FastAPI migration in progress
+
+The first phase provides a FastAPI version of the six public content APIs using
+the existing MySQL schema. Setup and current limitations are documented in
+[backend/README.md](backend/README.md). The admin interface and uploads are
+still PHP and have not yet been converted; the FastAPI app is not a complete
+replacement for the existing deployment.
+
 Static HTML/CSS/JavaScript portfolio with optional PHP/MySQL content management.
 Run `php -S 127.0.0.1:8000 -t .` from the root and visit localhost:8000.
 No frontend build or package installation is required.
