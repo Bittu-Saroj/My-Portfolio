@@ -219,6 +219,64 @@ document.addEventListener('DOMContentLoaded', function(){
   ];
 
   const designGrid = document.getElementById('design-grid');
+  const designCount = document.getElementById('design-count');
+  const designFilters = [...document.querySelectorAll('#design .filter-btn')];
+  const designPreview = document.getElementById('design-preview');
+  let activeDesignFilter = 'all', visibleDesignProjects = [], previewIndex = 0, previewOpener = null, previousBodyOverflow = '';
+  const categoryNames = {social:'Social Media', poster:'Posters', branding:'Branding', ad:'Advertisements'};
+  function designCategory(value){
+    const category=String(value || '').trim().toLowerCase();
+    if(category.includes('social')) return 'social';
+    if(category.includes('poster')) return 'poster';
+    if(category.includes('brand')) return 'branding';
+    if(category === 'ad' || category.includes('advert')) return 'ad';
+    return category;
+  }
+  function designImage(project){return project.image || project.filename || 'assets/images/design/social-01.svg';}
+  function updateDesignPreview(){
+    const project=visibleDesignProjects[previewIndex];
+    if(!project || !designPreview) return;
+    const img=designPreview.querySelector('.preview-image');
+    img.src=designImage(project); img.alt=project.title || 'Design project';
+    designPreview.querySelector('#design-preview-title').textContent=project.title || 'Untitled project';
+    designPreview.querySelector('.preview-category').textContent=categoryNames[designCategory(project.category)] || project.category || 'Design';
+    designPreview.querySelector('#design-preview-description').textContent=project.description || '';
+    const tools=Array.isArray(project.tools) ? project.tools : (project.tools ? String(project.tools).split(',') : []);
+    designPreview.querySelector('.preview-tools').textContent=tools.length ? `Tools: ${tools.map(tool=>String(tool).trim()).filter(Boolean).join(', ')}` : '';
+    designPreview.querySelector('.preview-count').textContent=`${previewIndex + 1} / ${visibleDesignProjects.length}`;
+    designPreview.querySelector('.preview-prev').disabled=visibleDesignProjects.length < 2;
+    designPreview.querySelector('.preview-next').disabled=visibleDesignProjects.length < 2;
+  }
+  function openDesignPreview(index, opener){
+    if(!designPreview || !visibleDesignProjects[index]) return;
+    previewIndex=index; previewOpener=opener; previousBodyOverflow=document.body.style.overflow;
+    updateDesignPreview(); designPreview.showModal(); document.body.style.overflow='hidden';
+    designPreview.querySelector('.preview-close').focus();
+  }
+  function closeDesignPreview(){
+    if(!designPreview?.open || designPreview.classList.contains('is-closing')) return;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ designPreview.close(); return; }
+    designPreview.classList.add('is-closing');
+    setTimeout(()=>{ if(designPreview.open) designPreview.close(); }, 180);
+  }
+  function moveDesignPreview(direction){
+    if(visibleDesignProjects.length < 2) return;
+    previewIndex=(previewIndex + direction + visibleDesignProjects.length) % visibleDesignProjects.length;
+    updateDesignPreview();
+  }
+  designPreview?.querySelector('.preview-close')?.addEventListener('click', closeDesignPreview);
+  designPreview?.querySelector('.preview-prev')?.addEventListener('click', ()=>moveDesignPreview(-1));
+  designPreview?.querySelector('.preview-next')?.addEventListener('click', ()=>moveDesignPreview(1));
+  designPreview?.addEventListener('cancel', event=>{event.preventDefault();closeDesignPreview();});
+  designPreview?.addEventListener('click', event=>{if(event.target===designPreview) closeDesignPreview();});
+  designPreview?.addEventListener('keydown', event=>{
+    if(event.key==='ArrowLeft'){event.preventDefault();moveDesignPreview(-1);}
+    if(event.key==='ArrowRight'){event.preventDefault();moveDesignPreview(1);}
+  });
+  designPreview?.addEventListener('close', ()=>{
+    designPreview.classList.remove('is-closing'); document.body.style.overflow=previousBodyOverflow;
+    if(previewOpener?.isConnected) previewOpener.focus();
+  });
   if(designGrid) designGrid.innerHTML = '<div class="loading-state">Loading selected work…</div>';
   function applyDesignAssetOverrides(projects){
     return projects.map(project=> project.title === 'Branding Placeholder'
@@ -226,44 +284,55 @@ document.addEventListener('DOMContentLoaded', function(){
       : project
     );
   }
-  function renderDesign(projects){
+  function renderDesign(){
     if(!designGrid) return;
+    const projects=activeDesignFilter === 'all' ? designProjects : designProjects.filter(p=>designCategory(p.category)===activeDesignFilter);
+    visibleDesignProjects=projects;
+    if(designCount) designCount.textContent=`${projects.length} ${projects.length === 1 ? 'project' : 'projects'}`;
     designGrid.innerHTML = '';
     if(!projects.length){ designGrid.innerHTML='<div class="empty-state">No projects in this category yet.</div>'; return; }
-    projects.forEach(p=>{
-      const toolsArr = Array.isArray(p.tools) ? p.tools : (p.tools ? String(p.tools).split(',') : []);
-      const imgSrc = p.image || (p.filename ? p.filename : 'assets/images/design/social-01.svg');
-      const card = document.createElement('div'); card.className = 'project-card' + (p.category === 'poster' ? ' project-card--poster' : '');
+    projects.forEach((p,index)=>{
+      const kind=designCategory(p.category);
+      const card = document.createElement('article'); card.className = 'design-card category-' + (['social','poster','branding','ad'].includes(kind) ? kind : 'other');
+      card.style.setProperty('--card-index', String(Math.min(index, 8)));
+      const button=document.createElement('button'); button.type='button'; button.className='design-tile';
+      button.setAttribute('aria-label', `View ${p.title || 'design project'}`);
+      const art=document.createElement('span'); art.className='design-art';
       const imgEl = document.createElement('img');
-      imgEl.src = imgSrc; imgEl.alt = p.title || 'Project'; imgEl.loading = 'lazy'; imgEl.decoding = 'async'; imgEl.className = 'project-image';
-      const body = document.createElement('div'); body.className = 'project-body';
-      const title = document.createElement('h4'); title.textContent = p.title || '';
-      const category = document.createElement('p'); category.className = 'muted'; category.textContent = p.category || '';
-      const toolList = document.createElement('p'); toolList.className = 'muted'; toolList.textContent = toolsArr.join(', ');
-      body.append(title, category, toolList);
-      if(p.description){const description=document.createElement('p'); description.className='project-description'; description.textContent=p.description; body.appendChild(description);}
-      card.append(imgEl, body);
-      imgEl.addEventListener('click', ()=>openLightbox(imgSrc, p.title || ''));
+      imgEl.src = designImage(p); imgEl.alt = ''; imgEl.loading = 'lazy'; imgEl.decoding = 'async';
+      art.appendChild(imgEl);
+      const overlay=document.createElement('span'); overlay.className='design-overlay'; overlay.setAttribute('aria-hidden','true');
+      const overlayText=document.createElement('span'); overlayText.className='design-overlay-text';
+      const overlayCategory=document.createElement('small'); overlayCategory.textContent=categoryNames[kind] || p.category || 'Design';
+      const overlayTitle=document.createElement('strong'); overlayTitle.textContent=p.title || 'Untitled project';
+      overlayText.append(overlayCategory,overlayTitle);
+      const arrow=document.createElement('span'); arrow.className='design-arrow'; arrow.textContent='↗'; overlay.append(overlayText,arrow); art.appendChild(overlay);
+      const body=document.createElement('span'); body.className='design-card-info';
+      const category=document.createElement('span'); category.className='design-card-category'; category.textContent=categoryNames[kind] || p.category || 'Design';
+      const title=document.createElement('strong'); title.className='design-card-title'; title.textContent=p.title || 'Untitled project';
+      body.append(category,title); button.append(art,body); card.appendChild(button);
+      button.addEventListener('click', ()=>openDesignPreview(index,button));
       designGrid.appendChild(card);
     })
   }
 
   // Try to fetch live projects from admin API, fallback to local designProjects
   fetch('admin/api-design.php').then(r=>{ if(!r.ok) throw new Error('Network response not ok'); return r.json(); }).then(data=>{
-    if(Array.isArray(data)){ designProjects = applyDesignAssetOverrides(data); renderDesign(designProjects); }
-    else renderDesign([]);
+    if(Array.isArray(data)) designProjects = applyDesignAssetOverrides(data);
+    else designProjects = [];
+    renderDesign();
   }).catch(()=>{
-    renderDesign(designProjects);
+    renderDesign();
   });
 
   // Filter buttons (use current designProjects variable)
-  document.querySelectorAll('.filter-btn').forEach(btn=>{
+  designFilters.forEach(btn=>{
     btn.addEventListener('click', ()=>{
-      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      designFilters.forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false');});
       btn.classList.add('active');
-      const filter = btn.dataset.filter;
-      if(filter === 'all') renderDesign(designProjects);
-      else renderDesign(designProjects.filter(p=>p.category===filter));
+      btn.setAttribute('aria-pressed','true');
+      activeDesignFilter=btn.dataset.filter;
+      renderDesign();
     })
   });
 
@@ -367,7 +436,7 @@ document.addEventListener('DOMContentLoaded', function(){
   function closeLightbox(){lightbox.classList.remove('show');lightbox.setAttribute('aria-hidden','true');document.body.style.overflow='';}
   lightboxClose?.addEventListener('click', closeLightbox);
   lightbox?.addEventListener('click', (e)=>{if(e.target===lightbox) closeLightbox()});
-  document.addEventListener('keydown', (e)=>{if(e.key==='Escape') closeLightbox()});
+  document.addEventListener('keydown', (e)=>{if(e.key==='Escape' && lightbox?.classList.contains('show')) closeLightbox()});
 
   // Before/After slider simple implementation
   document.querySelectorAll('.before-after').forEach(container=>{

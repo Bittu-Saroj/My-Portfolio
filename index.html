@@ -56,6 +56,7 @@
   <link rel="stylesheet" href="css/mobile-navigation.css" />
   <link rel="stylesheet" href="css/creative-marquee.css" />
   <link rel="stylesheet" href="css/education-timeline.css" />
+  <link rel="stylesheet" href="css/design-gallery.css" />
 </head>
 <body>
   <header class="site-header">
@@ -290,17 +291,20 @@
     <section id="design" class="section container reveal">
       <div class="section-head">
         <p class="section-kicker">01 / SELECTED WORK</p>
-        <h2>Selected Design Work</h2>
+        <h2>Selected Design Work.</h2>
+        <p class="design-subtitle">Ideas transformed into visual experiences.</p>
         <p class="muted">Visual designs created for digital platforms, branding, advertising, and social media.</p>
       </div>
       <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="social">Social Media</button>
-        <button class="filter-btn" data-filter="poster">Posters</button>
-        <button class="filter-btn" data-filter="branding">Branding</button>
-        <button class="filter-btn" data-filter="ad">Advertisements</button>
+        <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" class="filter-btn" data-filter="social" aria-pressed="false">Social Media</button>
+        <button type="button" class="filter-btn" data-filter="poster" aria-pressed="false">Posters</button>
+        <button type="button" class="filter-btn" data-filter="branding" aria-pressed="false">Branding</button>
+        <button type="button" class="filter-btn" data-filter="ad" aria-pressed="false">Advertisements</button>
       </div>
+      <p id="design-count" class="design-count" role="status" aria-live="polite"></p>
       <div id="design-grid" class="projects-grid"></div>
+      <p class="design-footer">More ideas. More stories. More creativity.</p>
     </section>
 
     <!-- PHOTOGRAPHY -->
@@ -532,13 +536,26 @@
     <div class="container copyright">© 2026 Saroj Pathak. All rights reserved.</div>
   </footer>
 
+  <dialog id="design-preview" class="design-preview" aria-labelledby="design-preview-title" aria-describedby="design-preview-description">
+    <div class="preview-shell">
+      <button type="button" class="preview-close" aria-label="Close project preview">&times;</button>
+      <div class="preview-art"><img class="preview-image" alt="" /></div>
+      <div class="preview-info">
+        <p class="preview-category"></p><h2 id="design-preview-title"></h2>
+        <p id="design-preview-description"></p>
+        <p class="preview-tools"></p>
+        <div class="preview-navigation"><button type="button" class="preview-prev">← Previous</button><span class="preview-count" aria-live="polite"></span><button type="button" class="preview-next">Next →</button></div>
+      </div>
+    </div>
+  </dialog>
+
   <div id="lightbox" class="lightbox" aria-hidden="true">
     <button class="lightbox-close" aria-label="Close">&times;</button>
     <img class="lightbox-img" alt="" />
     <p class="lightbox-caption"></p>
   </div>
 
-  <script src="js/script.js?v=pixels-branding-20260920" defer></script>
+  <script src="js/script.js?v=design-gallery-20261117" defer></script>
   <script src="js/public-theme.js" defer></script>
 </body>
 </html>
