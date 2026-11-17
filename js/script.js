@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function(){
   const designCount = document.getElementById('design-count');
   const designFilters = [...document.querySelectorAll('#design .filter-btn')];
   const designPreview = document.getElementById('design-preview');
-  let activeDesignFilter = 'all', visibleDesignProjects = [], previewIndex = 0, previewOpener = null, previousBodyOverflow = '';
+  let activeDesignFilter = 'all', visibleDesignProjects = [], previewProjects = [], previewKind = 'design', previewIndex = 0, previewOpener = null, previousBodyOverflow = '';
   const categoryNames = {social:'Social Media', poster:'Posters', branding:'Branding', ad:'Advertisements'};
   function designCategory(value){
     const category=String(value || '').trim().toLowerCase();
@@ -234,21 +234,22 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   function designImage(project){return project.image || project.filename || 'assets/images/design/social-01.svg';}
   function updateDesignPreview(){
-    const project=visibleDesignProjects[previewIndex];
+    const project=previewProjects[previewIndex];
     if(!project || !designPreview) return;
     const img=designPreview.querySelector('.preview-image');
-    img.src=designImage(project); img.alt=project.title || 'Design project';
-    designPreview.querySelector('#design-preview-title').textContent=project.title || 'Untitled project';
-    designPreview.querySelector('.preview-category').textContent=categoryNames[designCategory(project.category)] || project.category || 'Design';
+    img.src=designImage(project); img.alt=project.alt || project.title || (previewKind === 'photo' ? 'Photograph' : 'Design project');
+    designPreview.querySelector('#design-preview-title').textContent=project.title || (previewKind === 'photo' ? 'Photography' : 'Untitled project');
+    designPreview.querySelector('.preview-category').textContent=previewKind === 'photo' ? (project.category || 'Photography') : (categoryNames[designCategory(project.category)] || project.category || 'Design');
     designPreview.querySelector('#design-preview-description').textContent=project.description || '';
     const tools=Array.isArray(project.tools) ? project.tools : (project.tools ? String(project.tools).split(',') : []);
     designPreview.querySelector('.preview-tools').textContent=tools.length ? `Tools: ${tools.map(tool=>String(tool).trim()).filter(Boolean).join(', ')}` : '';
-    designPreview.querySelector('.preview-count').textContent=`${previewIndex + 1} / ${visibleDesignProjects.length}`;
-    designPreview.querySelector('.preview-prev').disabled=visibleDesignProjects.length < 2;
-    designPreview.querySelector('.preview-next').disabled=visibleDesignProjects.length < 2;
+    designPreview.querySelector('.preview-count').textContent=`${previewIndex + 1} / ${previewProjects.length}`;
+    designPreview.querySelector('.preview-prev').disabled=previewProjects.length < 2;
+    designPreview.querySelector('.preview-next').disabled=previewProjects.length < 2;
   }
-  function openDesignPreview(index, opener){
-    if(!designPreview || !visibleDesignProjects[index]) return;
+  function openDesignPreview(index, opener, projects=visibleDesignProjects, kind='design'){
+    if(!designPreview || !projects[index]) return;
+    previewProjects=projects; previewKind=kind;
     previewIndex=index; previewOpener=opener; previousBodyOverflow=document.body.style.overflow;
     updateDesignPreview(); designPreview.showModal(); document.body.style.overflow='hidden';
     designPreview.querySelector('.preview-close').focus();
@@ -260,8 +261,8 @@ document.addEventListener('DOMContentLoaded', function(){
     setTimeout(()=>{ if(designPreview.open) designPreview.close(); }, 180);
   }
   function moveDesignPreview(direction){
-    if(visibleDesignProjects.length < 2) return;
-    previewIndex=(previewIndex + direction + visibleDesignProjects.length) % visibleDesignProjects.length;
+    if(previewProjects.length < 2) return;
+    previewIndex=(previewIndex + direction + previewProjects.length) % previewProjects.length;
     updateDesignPreview();
   }
   designPreview?.querySelector('.preview-close')?.addEventListener('click', closeDesignPreview);
@@ -338,23 +339,39 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Photography grid - try to fetch from admin API, fallback to local placeholders
   const photos = [
-    'assets/images/photography/portrait-01.jpg','assets/images/photography/landscape-01.svg','assets/images/photography/event-01.svg','assets/images/photography/product-01.svg'
+    {image:'assets/images/photography/portrait-01.jpg',title:'Portrait',category:'Portrait'},
+    {image:'assets/images/photography/landscape-01.svg',title:'Landscape — coming soon',category:'Landscape'},
+    {image:'assets/images/photography/event-01.svg',title:'Events — coming soon',category:'Events'},
+    {image:'assets/images/photography/product-01.svg',title:'Product — coming soon',category:'Product'}
   ];
   const photoGrid = document.getElementById('photo-grid');
+  const photoCount = document.getElementById('photo-count');
   if(photoGrid) photoGrid.innerHTML = '<div class="loading-state">Loading photographs…</div>';
   function renderPhotos(list){
     if(!photoGrid) return;
     photoGrid.innerHTML = '';
+    if(photoCount) photoCount.textContent=`${list.length} ${list.length === 1 ? 'item' : 'items'}`;
     if(!list.length){ photoGrid.innerHTML='<div class="empty-state">Photography will be published here soon.</div>'; return; }
     list.forEach((p, index)=>{
+      const photo=typeof p === 'string' ? {image:p} : p;
+      const card=document.createElement('article'); card.className='photo-card'; card.style.setProperty('--photo-index',String(Math.min(index,8)));
+      const button=document.createElement('button'); button.type='button'; button.className='photo-tile'; button.setAttribute('aria-label',`View ${photo.title || photo.alt || 'photograph'}`);
+      const frame=document.createElement('span'); frame.className='photo-frame';
       const img = document.createElement('img');
-      img.src = p.image || p;
-      img.alt = p.title || 'Photography placeholder';
+      img.src = photo.image;
+      img.alt = '';
       img.loading = 'lazy';
       img.decoding = 'async';
-      if(index === 0) img.fetchPriority = 'high';
-      img.addEventListener('click', ()=>openLightbox(img.src, p.title || 'Photography'));
-      photoGrid.appendChild(img);
+      frame.appendChild(img);
+      const overlay=document.createElement('span'); overlay.className='photo-overlay'; overlay.setAttribute('aria-hidden','true');
+      const hint=document.createElement('span'); hint.className='photo-overlay-label'; hint.textContent='View photograph';
+      const arrow=document.createElement('span'); arrow.className='photo-arrow'; arrow.textContent='↗'; overlay.append(hint,arrow); frame.appendChild(overlay);
+      const body=document.createElement('span'); body.className='photo-card-info';
+      const category=document.createElement('span'); category.className='photo-card-category'; category.textContent=photo.category || 'Photography';
+      const title=document.createElement('strong'); title.className='photo-card-title'; title.textContent=photo.title || photo.alt || 'Photograph';
+      body.append(category,title); button.append(frame,body); card.appendChild(button);
+      button.addEventListener('click',()=>openDesignPreview(index,button,list.map(item=>typeof item === 'string' ? {image:item} : item),'photo'));
+      photoGrid.appendChild(card);
     });
   }
   // Attempt to fetch dynamic photos from admin API
