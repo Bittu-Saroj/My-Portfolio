@@ -38,5 +38,55 @@
       "url": "",
       "video": "assets/videos/studio/5883a998-61fa-453a-b484-f0df569e5a48.mp4"
     }
+  ],
+  "tools": [
+    {
+      "id": "9d483e79-4bac-45bd-92f8-45b91cadcb42",
+      "title": "Adobe Illustrator",
+      "description": "Logo Design - Vector Art",
+      "image": "assets/images/studio/cdeb93cc-e278-4b62-b1f4-349684e07114.png"
+    },
+    {
+      "id": "existing-tool-0",
+      "title": "Adobe Photoshop",
+      "description": "Photo editing & compositing",
+      "image": "assets/images/tools/photoshop.svg"
+    },
+    {
+      "id": "existing-tool-1",
+      "title": "Adobe Lightroom",
+      "description": "Color grading",
+      "image": "assets/images/tools/lightroom.svg"
+    },
+    {
+      "id": "existing-tool-2",
+      "title": "Adobe Premiere Pro",
+      "description": "Comfortable - short edits & reels",
+      "image": "assets/images/tools/premiere-pro.svg"
+    },
+    {
+      "id": "existing-tool-3",
+      "title": "Adobe After Effects",
+      "description": "Basic animation & motion graphics",
+      "image": "assets/images/tools/after-effects.svg"
+    },
+    {
+      "id": "existing-tool-4",
+      "title": "Canva",
+      "description": "Fast layouts & social posts",
+      "image": "assets/images/tools/premiere.jpg"
+    },
+    {
+      "id": "existing-tool-5",
+      "title": "PHP / MySQL",
+      "description": "Working knowledge - web apps",
+      "image": "assets/images/tools/php-mysql.png"
+    },
+    {
+      "id": "existing-tool-6",
+      "title": "HTML / CSS / JS",
+      "description": "Responsive frontends & backends",
+      "image": "assets/images/tools/web-stack.jpg"
+    }
   ]
 }
