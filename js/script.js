@@ -67,26 +67,7 @@ document.addEventListener('DOMContentLoaded', function(){
   const navToggle = document.querySelector('.nav-toggle');
   const navMenu = document.querySelector('.mobile-nav-menu');
   const mobileBackdrop = document.querySelector('.mobile-nav-backdrop');
-  const megaTriggers = [...document.querySelectorAll('.nav-trigger')];
   const mobileTriggers = [...document.querySelectorAll('.mobile-nav-trigger')];
-  const closeMegaMenus = () => megaTriggers.forEach(trigger=>{
-    trigger.setAttribute('aria-expanded','false');
-    trigger.nextElementSibling?.classList.remove('open');
-  });
-  const openMegaMenu = trigger => {
-    const panel = trigger.nextElementSibling;
-    const nav = trigger.closest('.nav');
-    if(!panel || !nav) return;
-    closeMegaMenus();
-    trigger.setAttribute('aria-expanded','true');
-    panel.classList.add('open');
-    // Align the panel to its trigger while keeping it within the navigation bar.
-    const navRect = nav.getBoundingClientRect();
-    const triggerRect = trigger.getBoundingClientRect();
-    const panelWidth = panel.getBoundingClientRect().width;
-    const center = triggerRect.left - navRect.left + triggerRect.width / 2;
-    panel.style.left = `${Math.max(8, Math.min(center - panelWidth / 2, navRect.width - panelWidth - 8))}px`;
-  };
   const closeMobileNav = () => {
     navMenu?.classList.remove('open');
     navToggle?.setAttribute('aria-expanded','false');
@@ -95,29 +76,6 @@ document.addEventListener('DOMContentLoaded', function(){
     document.body.classList.remove('mobile-nav-open');
     closeMobileMenus();
   };
-  megaTriggers.forEach(trigger=>{
-    const dropdown = trigger.closest('.nav-dropdown');
-    let closeTimer;
-    dropdown?.addEventListener('mouseenter', ()=>{
-      if(!window.matchMedia('(hover: hover) and (min-width: 1024px)').matches) return;
-      clearTimeout(closeTimer);
-      openMegaMenu(trigger);
-    });
-    dropdown?.addEventListener('mouseleave', ()=>{
-      closeTimer = setTimeout(()=>{
-        if(!dropdown.contains(document.activeElement)) closeMegaMenus();
-      }, 180);
-    });
-    dropdown?.addEventListener('focusout', event=>{
-      if(!dropdown.contains(event.relatedTarget)) closeMegaMenus();
-    });
-    trigger.addEventListener('click', event=>{
-      event.preventDefault();
-      const wasOpen = trigger.getAttribute('aria-expanded') === 'true';
-      closeMegaMenus();
-      if(!wasOpen) openMegaMenu(trigger);
-    });
-  });
   const closeMobileMenus = () => mobileTriggers.forEach(trigger=>{
     trigger.setAttribute('aria-expanded','false');
     trigger.nextElementSibling?.classList.remove('open');
@@ -145,10 +103,9 @@ document.addEventListener('DOMContentLoaded', function(){
     navMenu.classList.toggle('open');
     mobileBackdrop?.classList.toggle('open', !expanded);
     document.body.classList.toggle('mobile-nav-open', !expanded);
-    if(expanded){ closeMegaMenus(); closeMobileMenus(); }
+    if(expanded) closeMobileMenus();
   });
   document.addEventListener('click', (event)=>{
-    if(!event.target.closest('.nav-dropdown')) closeMegaMenus();
     if(!event.target.closest('.mobile-nav-dropdown')) closeMobileMenus();
     if(navMenu?.classList.contains('open') && !navMenu.contains(event.target) && !navToggle.contains(event.target)){
       navMenu.classList.remove('open'); navToggle.setAttribute('aria-expanded','false');
@@ -159,16 +116,13 @@ document.addEventListener('DOMContentLoaded', function(){
   });
   document.addEventListener('keydown', event=>{
     if(event.key === 'Escape'){
-      const openTrigger = megaTriggers.find(trigger=>trigger.getAttribute('aria-expanded') === 'true');
       const mobileWasOpen = navMenu?.classList.contains('open');
-      closeMegaMenus();
       closeMobileNav();
-      if(mobileWasOpen) navToggle?.focus(); else openTrigger?.focus();
+      if(mobileWasOpen) navToggle?.focus();
     }
   });
   window.matchMedia('(min-width: 1024px)').addEventListener('change', event=>{
     if(event.matches) closeMobileNav();
-    closeMegaMenus();
   });
   mobileBackdrop?.addEventListener('click', ()=>{
     navMenu?.classList.remove('open');
@@ -176,7 +130,6 @@ document.addEventListener('DOMContentLoaded', function(){
     navToggle?.setAttribute('aria-label','Open navigation');
     mobileBackdrop.classList.remove('open');
     document.body.classList.remove('mobile-nav-open');
-    closeMegaMenus();
     closeMobileMenus();
   });
 
@@ -185,13 +138,12 @@ document.addEventListener('DOMContentLoaded', function(){
     a.addEventListener('click', function(e){
       const href = this.getAttribute('href');
       if(href.startsWith('#')){
-        closeMegaMenus();
         const el = document.querySelector(href);
         if(el){
           e.preventDefault();
           el.scrollIntoView({behavior:'smooth',block:'start'});
           // close mobile nav
-          if(navMenu?.classList.contains('open')){navMenu.classList.remove('open');navToggle.setAttribute('aria-expanded','false');navToggle.setAttribute('aria-label','Open navigation');mobileBackdrop?.classList.remove('open');document.body.classList.remove('mobile-nav-open');closeMegaMenus();closeMobileMenus()}
+          if(navMenu?.classList.contains('open')){navMenu.classList.remove('open');navToggle.setAttribute('aria-expanded','false');navToggle.setAttribute('aria-label','Open navigation');mobileBackdrop?.classList.remove('open');document.body.classList.remove('mobile-nav-open');closeMobileMenus()}
         }
       }
     })
@@ -208,6 +160,8 @@ document.addEventListener('DOMContentLoaded', function(){
   const trackedSections = [...document.querySelectorAll('main section[id]')]
     .filter(section=>sectionGroups[section.id]);
   let selectionFrame = 0;
+  // Skills is inside About, so retain the clicked item during its smooth scroll.
+  let selectedByNavigation = null;
   const updateNavSelection = () => {
     selectionFrame = 0;
     const marker = window.innerHeight * .35;
@@ -215,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function(){
     trackedSections.forEach(section=>{
       if(section.getBoundingClientRect().top <= marker) current = section;
     });
-    const selected = navItems.find(item=>item.textContent.trim().startsWith(sectionGroups[current?.id] || 'Home'));
+    const selected = selectedByNavigation || navItems.find(item=>item.textContent.trim().startsWith(sectionGroups[current?.id] || 'Home'));
     if(!selected || !navList) return;
     navItems.forEach(item=>{
       const isSelected = item === selected;
@@ -234,6 +188,16 @@ document.addEventListener('DOMContentLoaded', function(){
   const scheduleNavSelection = () => {
     if(!selectionFrame) selectionFrame = requestAnimationFrame(updateNavSelection);
   };
+  navItems.forEach(item=>item.addEventListener('click', ()=>{
+    selectedByNavigation = item;
+    scheduleNavSelection();
+  }));
+  const resumeScrollSelection = () => { selectedByNavigation = null; scheduleNavSelection(); };
+  window.addEventListener('wheel', resumeScrollSelection, {passive:true});
+  window.addEventListener('touchstart', resumeScrollSelection, {passive:true});
+  window.addEventListener('keydown', event=>{
+    if(['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(event.key)) resumeScrollSelection();
+  });
   window.addEventListener('scroll', scheduleNavSelection, {passive:true});
   window.addEventListener('resize', scheduleNavSelection);
   scheduleNavSelection();
