@@ -1,10 +1,42 @@
 {
   "version": 1,
   "photos": [
-    {"id":"existing-portrait","image":"assets/images/photography/portrait-01.jpg","title":"Portrait","alt":"Portrait photograph","category":"Portrait"},
-    {"id":"placeholder-landscape","image":"assets/images/photography/landscape-01.svg","title":"Landscape — coming soon","alt":"Landscape placeholder","category":"Landscape"},
-    {"id":"placeholder-events","image":"assets/images/photography/event-01.svg","title":"Events — coming soon","alt":"Event placeholder","category":"Events"},
-    {"id":"placeholder-product","image":"assets/images/photography/product-01.svg","title":"Product — coming soon","alt":"Product placeholder","category":"Product"}
+    {
+      "id": "existing-portrait",
+      "image": "assets/images/photography/portrait-01.jpg",
+      "title": "Portrait",
+      "alt": "Portrait photograph",
+      "category": "Portrait"
+    },
+    {
+      "id": "placeholder-landscape",
+      "image": "assets/images/photography/landscape-01.svg",
+      "title": "Landscape — coming soon",
+      "alt": "Landscape placeholder",
+      "category": "Landscape"
+    },
+    {
+      "id": "placeholder-events",
+      "image": "assets/images/photography/event-01.svg",
+      "title": "Events — coming soon",
+      "alt": "Event placeholder",
+      "category": "Events"
+    },
+    {
+      "id": "placeholder-product",
+      "image": "assets/images/photography/product-01.svg",
+      "title": "Product — coming soon",
+      "alt": "Product placeholder",
+      "category": "Product"
+    }
   ],
-  "videos": []
+  "videos": [
+    {
+      "id": "e3195d4c-692b-488e-91f2-373808f5322b",
+      "title": "Motion Graphic",
+      "description": "animation video",
+      "url": "",
+      "video": "assets/videos/studio/5883a998-61fa-453a-b484-f0df569e5a48.mp4"
+    }
+  ]
 }
