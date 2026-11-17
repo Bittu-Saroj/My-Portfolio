@@ -55,14 +55,17 @@ document.addEventListener('DOMContentLoaded', function(){
   const renderTools = tools => {
     const grid=document.querySelector('.skills-grid'); if(!grid) return;
     grid.innerHTML='';
-    if(!Array.isArray(tools) || !tools.length) tools = fallbackTools;
+    if(!Array.isArray(tools)) tools = fallbackTools;
     tools.forEach(tool=>{
       const item=document.createElement('div'); item.className='skill';
       if(tool.image){const img=document.createElement('img');img.className='skill-icon';img.src=tool.image;img.alt='';item.appendChild(img);}
       const body=document.createElement('div'); const title=document.createElement('strong'); title.textContent=tool.title||''; const desc=document.createElement('p'); desc.className='muted'; desc.textContent=tool.description||''; body.append(title,desc); item.appendChild(body); grid.appendChild(item);
     });
   };
-  fetch('admin/api-tools.php').then(r=>r.ok?r.json():[]).then(renderTools).catch(()=>renderTools(fallbackTools));
+  fetch('content/portfolio.json').then(r=>r.ok?r.json():null).then(data=>{
+    if(Array.isArray(data?.tools)) return data.tools;
+    return fetch('admin/api-tools.php').then(r=>r.ok?r.json():null).then(tools=>Array.isArray(tools) && tools.length ? tools : fallbackTools).catch(()=>fallbackTools);
+  }).then(renderTools).catch(()=>renderTools(fallbackTools));
   // Nav toggle
   const navToggle = document.querySelector('.nav-toggle');
   const navMenu = document.querySelector('.mobile-nav-menu');

@@ -16,7 +16,7 @@ class Element {
 }
 
 async function main(){
-  const ids=['message','save','new-item','cancel','sign-out','photos-tab','videos-tab','login-form','token','login','workspace','account','list','item-count','editor','editor-form','editor-title','photo-fields','video-fields','title','alt','description','video-url','clear-video-label','clear-video','category','file-label','media-file','file-hint'];
+  const ids=['message','save','new-item','cancel','sign-out','photos-tab','videos-tab','tools-tab','login-form','token','login','workspace','account','list','item-count','editor','editor-form','editor-title','photo-fields','video-fields','tool-fields','tool-description','title','alt','description','video-url','clear-video-label','clear-video','category','file-label','media-file','file-hint'];
   const nodes=Object.fromEntries(ids.map(id=>[id,new Element()]));
   nodes.category.options=['Portrait','Landscape','Events','Product','Photography'].map(value=>({value}));
   const document={getElementById:id=>nodes[id],createElement:()=>new Element()};
@@ -62,6 +62,11 @@ async function main(){
   await nodes['videos-tab'].trigger('click');await nodes['new-item'].trigger('click');nodes.title.value='Video';nodes['media-file'].files=[];nodes['video-url'].value='javascript:alert(1)';
   await nodes['editor-form'].trigger('submit');assert.match(nodes.message.textContent,/HTTPS/);assert.equal(data.videos.length,0);
   nodes['video-url'].value='https://example.com/video';await nodes['editor-form'].trigger('submit');assert.equal(data.videos.length,1);assert.equal(data.videos[0].url,'https://example.com/video');
+  await nodes['tools-tab'].trigger('click');assert.equal(nodes.list.children.length,7);
+  await nodes['new-item'].trigger('click');nodes.title.value='New tool';nodes['tool-description'].value='Creative work';nodes['media-file'].files=[];await nodes['editor-form'].trigger('submit');assert.equal(data.tools[0].title,'New tool');assert.equal(data.tools[0].description,'Creative work');assert.equal(data.videos.length,1);
+  await nodes.list.children[0].children[2].children[0].trigger('click');nodes.title.value='Updated tool';await nodes['editor-form'].trigger('submit');assert.equal(data.tools[0].title,'Updated tool');
+  await nodes.list.children[0].children[2].children[1].trigger('click');assert.equal(data.tools.length,7);
+  await nodes['videos-tab'].trigger('click');
   sha='sha-99';await nodes['new-item'].trigger('click');nodes.title.value='Conflicting edit';nodes['video-url'].value='https://example.com/other';await nodes['editor-form'].trigger('submit');assert.match(nodes.message.textContent,/changed elsewhere/i);assert.equal(data.videos.length,1);
   await nodes['sign-out'].trigger('click');assert.equal(nodes.workspace.hidden,true);assert.equal(nodes.login.hidden,false);
   assert.ok(requests.every(request=>request.url.startsWith('https://api.github.com/')));
