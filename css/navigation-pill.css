@@ -1,0 +1,70 @@
+/* Rounded navigation inspired by the supplied references. */
+@media (min-width: 1024px) {
+  body .site-header .nav {
+    gap: clamp(.7rem, 1.4vw, 1.4rem);
+    min-height: 4.5rem;
+    border-radius: 999px;
+    background: rgba(250, 250, 246, .94);
+    border: 1px solid rgba(39, 48, 35, .1);
+    box-shadow: 0 12px 35px rgba(21, 29, 21, .09);
+  }
+  body .site-header .brand { flex: 0 0 auto; position: relative; z-index: 1; margin-right: clamp(.8rem, 2vw, 2rem); white-space: nowrap; }
+  body .site-header .nav-menu { flex: 1 1 auto; justify-content: flex-end; min-width: 0; gap: 1rem; }
+  body .site-header .nav-list {
+    position: relative; flex: 0 0 auto; display: flex; align-items: center; gap: .15rem !important;
+    padding: .27rem; border-radius: 999px;
+    background: #e8eae3; border: 1px solid #dfe3d9;
+  }
+  body .site-header .nav-list .nav-link {
+    position: relative; z-index: 1; display: flex; align-items: center; justify-content: center;
+    min-height: 2.55rem; padding: .55rem clamp(.6rem, .9vw, .9rem) !important;
+    border-radius: 999px; color: #394439;
+    transition: background .22s ease, color .22s ease, box-shadow .22s ease;
+  }
+  body .site-header .nav-list .nav-link::after { display: none; }
+  body .site-header .nav-list .nav-link:hover,
+  body .site-header .nav-list .nav-link:focus-visible,
+  body .site-header .nav-list .nav-trigger[aria-expanded="true"] {
+    background: #f9faf6; color: #182217; box-shadow: 0 2px 8px #26332112;
+  }
+  body .site-header .nav-list .nav-link.active { background: #fff; color: #182217; box-shadow: 0 2px 8px #26332112; }
+  body .site-header .nav-list.has-indicator::before {
+    content: ''; position: absolute; z-index: 0; top: .27rem; left: 0;
+    width: var(--selected-width, 0px); height: calc(100% - .54rem);
+    border-radius: 999px; background: #fff; box-shadow: 0 2px 8px #26332112;
+    transform: translateX(var(--selected-left, 0px));
+    transition: transform .3s cubic-bezier(.22, 1, .36, 1), width .3s cubic-bezier(.22, 1, .36, 1);
+    pointer-events: none;
+  }
+  body .site-header .nav-list.has-indicator .nav-link.active { background: transparent; box-shadow: none; }
+  body .site-header .nav-cta { margin-left: 0; gap: .65rem; }
+  body .site-header .nav-status { display: none; }
+  body .site-header .nav-cta .btn-cta {
+    background: #1c251a; border-color: #1c251a; color: #fff;
+    box-shadow: none; white-space: nowrap;
+  }
+  body .site-header .nav-cta .btn-cta:hover { background: #364b28; color: #fff; box-shadow: none; }
+  html[data-theme="dark"] body .site-header .nav { background: rgba(22, 27, 21, .96); border-color: #37432e; }
+  html[data-theme="dark"] body .site-header .nav-list { background: #2a3326; border-color: #3d4b35; }
+  html[data-theme="dark"] body .site-header .nav-list .nav-link { color: #d7dfd1; }
+  html[data-theme="dark"] body .site-header .nav-list .nav-link:hover,
+  html[data-theme="dark"] body .site-header .nav-list .nav-link:focus-visible,
+  html[data-theme="dark"] body .site-header .nav-list .nav-trigger[aria-expanded="true"] { background: #44533a; color: #fff; }
+  html[data-theme="dark"] body .site-header .nav-list .nav-link.active { background: #ecf3df; color: #1a2617; }
+  html[data-theme="dark"] body .site-header .nav-list.has-indicator::before { background: #ecf3df; }
+  html[data-theme="dark"] body .site-header .nav-list.has-indicator .nav-link.active { background: transparent; color: #1a2617; }
+  html[data-theme="dark"] body .site-header .nav-status { background: transparent; border: 0; }
+  html[data-theme="dark"] body .site-header .nav-cta .btn-cta { background: #c9ec65; border-color: #c9ec65; color: #172013; }
+  html[data-theme="dark"] body .site-header .nav-cta .btn-cta:hover { background: #dcf598; color: #172013; }
+}
+@media (min-width: 1024px) and (max-width: 1500px) {
+  body .site-header .nav-status { display: none; }
+  body .site-header .nav-list .nav-link { padding-inline: .55rem !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body .site-header .nav-list.has-indicator::before { transition: none; }
+}
+@media (max-width: 1023px) {
+  body .site-header .nav { border-radius: 999px !important; }
+  body .mobile-nav-trigger[aria-expanded="true"] { border-radius: 999px; }
+}

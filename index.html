@@ -3,6 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>
+    // Set the saved appearance before painting to avoid a flash of the wrong theme.
+    try {
+      const theme = localStorage.getItem('portfolio-theme');
+      if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+      else if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.dataset.theme = 'dark';
+    } catch (_) { /* The light theme remains available when storage is blocked. */ }
+  </script>
   <title>Saroj Pathak | Graphic Designer, Photographer & Developer</title>
   <meta name="description" content="Portfolio of Saroj Pathak — Graphic Designer, Photographer, Video Editor, BCA Student, and technology enthusiast." />
   <meta property="og:title" content="Saroj Pathak | Graphic Designer, Photographer & Developer" />
@@ -21,6 +29,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="css/style.css?v=73565ab" />
+  <link rel="stylesheet" href="css/public-refresh.css" />
   <style>
     /* Compact Jaya Multiple Campus record card, aligned to the Education design system. */
     #education .education-heading { gap: 1.05rem; margin-bottom: 1.75rem; }
@@ -40,11 +49,19 @@
     @media (max-width: 820px) { #education .education-card { grid-template-columns: 1fr; gap: 1.65rem; } #education .education-meta { padding-top: 1.45rem; } }
     @media (max-width: 560px) { #education .education-heading h2 { font-size: clamp(2.2rem, 11vw, 2.7rem); } #education .education-card { padding: 1.45rem; border-radius: 20px; } #education .education-primary { align-items: flex-start; } #education .education-icon { width: 3.7rem; height: 3.7rem; flex-basis: 3.7rem; font-size: 1.4rem; } #education .education-copy h3 { font-size: 1.55rem; } }
   </style>
+  <link rel="stylesheet" href="css/public-theme.css" />
+  <link rel="stylesheet" href="css/navigation-dropdowns.css" />
+  <link rel="stylesheet" href="css/navigation-pill.css" />
+  <link rel="stylesheet" href="css/portrait-light.css" />
 </head>
 <body>
   <header class="site-header">
     <nav class="nav container">
       <a class="brand" href="#home" aria-label="Saroj Pathak home">Saroj Pathak</a>
+      <button class="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode" aria-pressed="false">
+        <svg class="theme-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.9 13A8.5 8.5 0 0 1 11 3.1 8.5 8.5 0 1 0 20.9 13Z"/></svg>
+        <svg class="theme-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+      </button>
       <button class="nav-toggle" aria-expanded="false" aria-controls="mobile-nav-menu" aria-label="Open navigation">
         <span class="hamburger"></span>
       </button>
@@ -54,38 +71,41 @@
           <li class="nav-dropdown">
             <button class="nav-link nav-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="about-menu">About <span>⌄</span></button>
             <div class="mega-menu" id="about-menu">
-              <div class="mega-column"><h3>About</h3><a href="#about"><i class="fa-regular fa-user"></i><span><strong>About Me</strong><small>Learn more about my background and creative journey.</small></span></a><a href="#about"><i class="fa-solid fa-route"></i><span><strong>My Story</strong><small>My journey in design, photography and technology.</small></span></a><a href="#about"><i class="fa-solid fa-briefcase"></i><span><strong>Experience</strong><small>Creative and technical experience.</small></span></a></div>
-              <div class="mega-column"><h3>Personal</h3><a href="#education"><i class="fa-solid fa-graduation-cap"></i><span><strong>Education</strong><small>BCA student with a passion for technology.</small></span></a><a href="#about"><i class="fa-solid fa-wand-magic-sparkles"></i><span><strong>Creative Journey</strong><small>From photography to digital design.</small></span></a><a href="#about"><i class="fa-solid fa-bullseye"></i><span><strong>Goals</strong><small>What I'm building and where I'm heading.</small></span></a></div>
-              <div class="mega-column"><h3>Connect</h3><a href="#contact"><i class="fa-regular fa-file-lines"></i><span><strong>Resume</strong></span></a><a href="#contact"><i class="fa-regular fa-envelope"></i><span><strong>Contact Me</strong></span></a><a href="#contact"><i class="fa-solid fa-share-nodes"></i><span><strong>Social Links</strong></span></a></div>
-              <div class="mega-feature"><span class="mega-kicker">Featured identity</span><strong>Graphic Designer<br>&amp; Photographer</strong><p>Creative visual designer combining design, photography, video and technology.</p><a href="#contact">Let's collaborate <span>↗</span></a></div>
+              <div class="mega-column"><h3>Get to know me</h3>
+                <a href="#about"><i class="fa-regular fa-user" aria-hidden="true"></i><span><strong>About Me</strong><small>My background and creative focus.</small></span></a>
+                <a href="#education"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i><span><strong>Education</strong><small>My studies and learning journey.</small></span></a>
+              </div>
             </div>
           </li>
           <li class="nav-dropdown">
             <button class="nav-link nav-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="portfolio-menu">Portfolio <span>⌄</span></button>
             <div class="mega-menu" id="portfolio-menu">
-              <div class="mega-column"><h3>Design</h3><a href="#design"><i class="fa-solid fa-pen-nib"></i><span><strong>Graphic Design</strong></span></a><a href="#design"><i class="fa-solid fa-hashtag"></i><span><strong>Social Media Design</strong></span></a><a href="#design"><i class="fa-solid fa-shapes"></i><span><strong>Branding</strong></span></a><a href="#design"><i class="fa-regular fa-image"></i><span><strong>Posters &amp; Creative Designs</strong></span></a></div>
-              <div class="mega-column"><h3>Photography</h3><a href="#photography"><i class="fa-solid fa-plane"></i><span><strong>Travel Photography</strong></span></a><a href="#photography"><i class="fa-solid fa-camera"></i><span><strong>Portrait Photography</strong></span></a><a href="#photography"><i class="fa-solid fa-box"></i><span><strong>Product Photography</strong></span></a><a href="#editing"><i class="fa-solid fa-sliders"></i><span><strong>Edited Photography</strong></span></a></div>
-              <div class="mega-column"><h3>Video</h3><a href="#video"><i class="fa-solid fa-film"></i><span><strong>Video Editing</strong></span></a><a href="#video"><i class="fa-solid fa-bullhorn"></i><span><strong>Promotional Videos</strong></span></a><a href="#video"><i class="fa-solid fa-mobile-screen"></i><span><strong>Reels &amp; Short Videos</strong></span></a><a href="#video"><i class="fa-solid fa-wand-magic-sparkles"></i><span><strong>Motion Graphics</strong></span></a></div>
-              <div class="mega-feature featured-work"><span class="mega-kicker">Featured work</span><strong>Selected<br>Projects</strong><p>A curated look at recent design, photo and video work.</p><a href="#projects">View all projects <span>→</span></a></div>
+              <div class="mega-column"><h3>Visual work</h3>
+                <a href="#design"><i class="fa-solid fa-pen-nib" aria-hidden="true"></i><span><strong>Design Work</strong><small>Branding, posters and social media.</small></span></a>
+                <a href="#photography"><i class="fa-solid fa-camera" aria-hidden="true"></i><span><strong>Photography</strong><small>Portraits, places and products.</small></span></a>
+                <a href="#editing"><i class="fa-solid fa-sliders" aria-hidden="true"></i><span><strong>Before &amp; After</strong><small>Explore photo editing comparisons.</small></span></a>
+              </div>
+              <div class="mega-column"><h3>More projects</h3>
+                <a href="#video"><i class="fa-solid fa-film" aria-hidden="true"></i><span><strong>Video &amp; Motion</strong><small>Editing and motion work.</small></span></a>
+                <a href="#projects"><i class="fa-solid fa-code" aria-hidden="true"></i><span><strong>Code &amp; Technology</strong><small>Explore development projects.</small></span></a>
+              </div>
             </div>
           </li>
           <li class="nav-dropdown">
             <button class="nav-link nav-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="skills-menu">Skills <span>⌄</span></button>
             <div class="mega-menu skills-menu" id="skills-menu">
-              <div class="mega-column"><h3>Creative</h3><a href="#services"><i class="fa-solid fa-pen-nib"></i><span><strong>Graphic Design</strong></span></a><a href="#photography"><i class="fa-solid fa-camera"></i><span><strong>Photography</strong></span></a><a href="#editing"><i class="fa-solid fa-wand-magic-sparkles"></i><span><strong>Photo Editing</strong></span></a></div>
-              <div class="mega-column"><h3>Production</h3><a href="#video"><i class="fa-solid fa-film"></i><span><strong>Video Editing</strong></span></a><a href="#services"><i class="fa-solid fa-hashtag"></i><span><strong>Social Media Design</strong></span></a><a href="#services"><i class="fa-solid fa-laptop-code"></i><span><strong>Website Development</strong></span></a></div>
-              <div class="mega-column"><h3>Tools</h3><a href="#about"><i class="fa-solid fa-pen-ruler"></i><span><strong>Adobe Photoshop</strong></span></a><a href="#about"><i class="fa-solid fa-palette"></i><span><strong>Adobe Lightroom</strong></span></a><a href="#about"><i class="fa-solid fa-video"></i><span><strong>Adobe Premiere Pro</strong></span></a></div>
-              <div class="mega-column"><h3>Technology</h3><a href="#about"><i class="fa-solid fa-bezier-curve"></i><span><strong>Canva</strong></span></a><a href="#about"><i class="fa-solid fa-database"></i><span><strong>PHP &amp; MySQL</strong></span></a><a href="#about"><i class="fa-solid fa-code"></i><span><strong>HTML, CSS &amp; JavaScript</strong></span></a></div>
+              <div class="mega-column"><h3>Skills &amp; tools</h3>
+                <a href="#skills"><i class="fa-solid fa-pen-ruler" aria-hidden="true"></i><span><strong>Software &amp; Technology</strong><small>Adobe tools, Canva, web development and more.</small></span></a>
+              </div>
             </div>
           </li>
           <li class="nav-dropdown">
             <button class="nav-link nav-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="services-menu">Services <span>⌄</span></button>
             <div class="mega-menu" id="services-menu">
-              <div class="mega-column"><h3>Design</h3><a href="#services"><i class="fa-solid fa-pen-nib"></i><span><strong>Graphic Design</strong></span></a><a href="#services"><i class="fa-solid fa-hashtag"></i><span><strong>Social Media Design</strong></span></a><a href="#services"><i class="fa-solid fa-shapes"></i><span><strong>Branding</strong></span></a></div>
-              <div class="mega-column"><h3>Photography</h3><a href="#services"><i class="fa-solid fa-camera"></i><span><strong>Photography</strong></span></a><a href="#services"><i class="fa-solid fa-sliders"></i><span><strong>Photo Editing</strong></span></a><a href="#services"><i class="fa-solid fa-box"></i><span><strong>Product Photography</strong></span></a></div>
-              <div class="mega-column"><h3>Video</h3><a href="#services"><i class="fa-solid fa-film"></i><span><strong>Video Editing</strong></span></a><a href="#services"><i class="fa-solid fa-mobile-screen"></i><span><strong>Reels</strong></span></a><a href="#services"><i class="fa-solid fa-bullhorn"></i><span><strong>Promotional Content</strong></span></a></div>
-              <div class="mega-column"><h3>Digital</h3><a href="#services"><i class="fa-solid fa-laptop-code"></i><span><strong>Website Development</strong></span></a><a href="#services"><i class="fa-solid fa-hashtag"></i><span><strong>Social Media Design</strong></span></a></div>
-              <div class="mega-footer"><strong>Have a project in mind?</strong><a href="#contact">Let's work together <span>→</span></a></div>
+              <div class="mega-column"><h3>Working together</h3>
+                <a href="#services"><i class="fa-solid fa-paintbrush" aria-hidden="true"></i><span><strong>Services</strong><small>Design, photography, video and web.</small></span></a>
+                <a href="#process"><i class="fa-solid fa-compass" aria-hidden="true"></i><span><strong>Creative Process</strong><small>How an idea becomes finished work.</small></span></a>
+              </div>
             </div>
           </li>
           <li><a href="#contact" class="nav-link">Contact</a></li>
@@ -102,40 +122,30 @@
             <button class="mobile-nav-link mobile-nav-trigger" aria-expanded="false">About <span aria-hidden="true">⌄</span></button>
             <div class="mobile-nav-submenu">
               <a href="#about"><strong>About Me</strong><small>Learn more about my background and creative journey.</small></a>
-              <a href="#about"><strong>My Story</strong><small>My journey in design, photography and technology.</small></a>
-              <a href="#about"><strong>Experience</strong><small>Creative and technical experience.</small></a>
               <a href="#education"><strong>Education</strong><small>BCA student with a passion for technology.</small></a>
-              <a href="#about"><strong>Creative Journey</strong><small>From photography to digital design.</small></a>
-              <a href="#about"><strong>Goals</strong><small>What I'm building and where I'm heading.</small></a>
-              <a href="#contact"><strong>Resume</strong><small>View my creative and technical experience.</small></a>
             </div>
           </li>
           <li class="mobile-nav-dropdown">
             <button class="mobile-nav-link mobile-nav-trigger" aria-expanded="false">Portfolio <span aria-hidden="true">⌄</span></button>
             <div class="mobile-nav-submenu">
-              <a href="#design"><strong>Graphic Design</strong><small>Social media, branding and creative design.</small></a>
+              <a href="#design"><strong>Design Work</strong><small>Social media, branding and creative design.</small></a>
               <a href="#photography"><strong>Photography</strong><small>Portrait, travel and product photography.</small></a>
-              <a href="#video"><strong>Video</strong><small>Edits, reels and motion graphics.</small></a>
-              <a href="#projects"><strong>Featured Projects</strong><small>Explore selected portfolio work.</small></a>
+              <a href="#editing"><strong>Before &amp; After</strong><small>Explore photo editing comparisons.</small></a>
+              <a href="#video"><strong>Video &amp; Motion</strong><small>Edits, reels and motion graphics.</small></a>
+              <a href="#projects"><strong>Code &amp; Technology</strong><small>Explore development projects.</small></a>
             </div>
           </li>
           <li class="mobile-nav-dropdown">
             <button class="mobile-nav-link mobile-nav-trigger" aria-expanded="false">Skills <span aria-hidden="true">⌄</span></button>
             <div class="mobile-nav-submenu">
-              <a href="#services"><strong>Graphic Design</strong><small>Visual design and creative direction.</small></a>
-              <a href="#photography"><strong>Photography</strong><small>Portrait, landscape and product work.</small></a>
-              <a href="#editing"><strong>Photo Editing</strong><small>Color grading, retouching and composites.</small></a>
-              <a href="#video"><strong>Video Editing</strong><small>Reels, short edits and motion graphics.</small></a>
-              <a href="#about"><strong>Tools &amp; Technology</strong><small>Adobe tools, Canva, PHP and front-end development.</small></a>
+              <a href="#skills"><strong>Software &amp; Technology</strong><small>Adobe tools, Canva, PHP and front-end development.</small></a>
             </div>
           </li>
           <li class="mobile-nav-dropdown">
             <button class="mobile-nav-link mobile-nav-trigger" aria-expanded="false">Services <span aria-hidden="true">⌄</span></button>
             <div class="mobile-nav-submenu">
-              <a href="#services"><strong>Graphic Design</strong><small>Social media design, branding and layouts.</small></a>
-              <a href="#services"><strong>Photography</strong><small>Portrait, product and creative photography.</small></a>
-              <a href="#services"><strong>Video Editing</strong><small>Reels and promotional content.</small></a>
-              <a href="#services"><strong>Website Development</strong><small>Responsive sites and PHP/MySQL web applications.</small></a>
+              <a href="#services"><strong>Services</strong><small>Design, photography, video and web.</small></a>
+              <a href="#process"><strong>Creative Process</strong><small>How an idea becomes finished work.</small></a>
             </div>
           </li>
           <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
@@ -154,24 +164,28 @@
     <!-- HERO -->
     <section id="home" class="hero container">
       <div class="hero-content">
-        <p class="eyebrow">Hello, I’m</p>
+        <p class="eyebrow hero-eyebrow"><span class="hero-dot" aria-hidden="true"></span> Independent creative · Nepal</p>
         <h1 class="hero-title">SAROJ PATHAK</h1>
         <p class="hero-role">Photographer · Graphic Designer · Creative Technologist</p>
         <p class="hero-sub">“God creates the beauty.<br>My camera and I are witnesses.”</p>
         <p class="hero-intro">I’m a creative professional passionate about photography, graphic design, and video editing. I combine creativity with technology to capture beautiful moments, create meaningful designs, and transform ideas into engaging visual experiences. I’m always exploring new techniques, learning new tools, and finding creative ways to tell stories through images, designs, and videos.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#design">View My Work</a>
-          <a class="btn btn-outline" href="#contact">Let’s Work Together</a>
+          <a class="btn btn-primary" href="#design">Explore my work <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-outline" href="#contact">Let’s collaborate <span aria-hidden="true">→</span></a>
         </div>
+        <div class="hero-meta"><span><span class="availability-indicator" aria-hidden="true"></span> Available for select projects</span><a href="#about">A little more about me ↓</a></div>
       </div>
 
-      <div class="hero-media" aria-hidden="true">
+      <div class="hero-media">
         <div class="profile-frame">
           <img src="assets/images/profile.png" alt="Portrait of Saroj Pathak" class="profile-photo" />
-          <div class="profile-decor"></div>
+          <div class="profile-decor" aria-hidden="true"></div>
         </div>
+        <div class="portrait-caption"><span>BEHIND THE WORK</span><strong>Curious by nature.<br>Creative by choice.</strong><span aria-hidden="true">✳</span></div>
       </div>
     </section>
+
+    <div class="discipline-bar" aria-label="Creative disciplines"><div class="container"><span>Photography</span><span aria-hidden="true">✳</span><span>Graphic design</span><span aria-hidden="true">✳</span><span>Video &amp; motion</span><span aria-hidden="true">✳</span><span>Digital experiences</span></div></div>
 
     <!-- ABOUT -->
     <section id="about" class="section container reveal">
@@ -193,7 +207,7 @@
           </div>
           <p class="about-location"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Based in Nepal <span aria-hidden="true">&middot;</span> Available for selected projects</p>
         </div>
-        <div class="skills-card">
+        <div class="skills-card" id="skills">
           <h3>Software & Technology</h3>
           <div class="skills-grid">
             <div class="skill">
@@ -284,6 +298,7 @@
     <!-- DESIGN PORTFOLIO -->
     <section id="design" class="section container reveal">
       <div class="section-head">
+        <p class="section-kicker">01 / SELECTED WORK</p>
         <h2>Selected Design Work</h2>
         <p class="muted">Visual designs created for digital platforms, branding, advertising, and social media.</p>
       </div>
@@ -300,6 +315,7 @@
     <!-- PHOTOGRAPHY -->
     <section id="photography" class="section container reveal">
       <div class="section-head">
+        <p class="section-kicker">02 / PHOTOGRAPHY</p>
         <h2>Through My Lens</h2>
         <p class="muted">Portraits, landscapes, events and product photography.</p>
       </div>
@@ -336,6 +352,7 @@
     <!-- VIDEO -->
     <section id="video" class="section container reveal">
       <div class="section-head video-heading">
+        <p class="section-kicker">03 / MOTION</p>
         <h2>Video &amp; Motion</h2>
         <p class="muted">Short-form edits, reels, motion graphics, and video projects created with Adobe Premiere Pro.</p>
       </div>
@@ -364,6 +381,7 @@
     <!-- DEVELOPMENT PROJECTS -->
     <section id="projects" class="section container reveal">
       <div class="section-head">
+        <p class="section-kicker">04 / TECHNOLOGY</p>
         <h2>Code & Technology</h2>
         <p class="muted">Practical technology projects built while learning and experimenting with software development.</p>
       </div>
@@ -397,6 +415,7 @@
 
     <!-- SERVICES -->
     <section id="services" class="section container reveal">
+      <p class="section-kicker">05 / WHAT I DO</p>
       <h2>What I Can Do</h2>
       <div class="services-grid">
         <article class="service">
@@ -529,5 +548,6 @@
   </div>
 
   <script src="js/script.js?v=pixels-branding-20260920" defer></script>
+  <script src="js/public-theme.js" defer></script>
 </body>
 </html>

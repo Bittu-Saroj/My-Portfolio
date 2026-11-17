@@ -1,0 +1,89 @@
+/* A light and dark palette inspired by the reference's charcoal and lime. */
+:root {
+  --accent: #c4e434;
+  --accent-hover: #647b12;
+  --accent-soft: rgba(163, 191, 42, .14);
+  --public-gold: #9bae32;
+}
+.theme-toggle {
+  order: 2; flex: 0 0 auto; display: grid; place-items: center;
+  width: 2.75rem; height: 2.75rem; margin-left: .7rem; padding: 0;
+  border: 1px solid #dcded1; border-radius: 50%; background: #f8f9f2;
+  color: #374323; cursor: pointer;
+}
+.theme-toggle:hover { background: #eef3d8; border-color: #9aae45; }
+.theme-toggle svg { width: 1.15rem; height: 1.15rem; }
+.theme-sun { display: none; }
+.nav-menu { order: 1; }
+.nav-toggle { order: 3; }
+body .section-kicker, body #home .hero-eyebrow { color: #667b1c; }
+body .hero-dot { background: #91ab22; }
+body .discipline-bar { background: #1b2118; }
+body .discipline-bar span[aria-hidden] { color: #c4e434; }
+body .section-head .eyebrow, body #process .eyebrow, body #contact .eyebrow { color: #647b12; }
+body .btn-cta, body .filter-btn.active { background: #c4e434; border-color: #c4e434; color: #19210f; }
+body .btn-cta:hover, body .filter-btn.active:hover { background: #b2d32a; }
+body .service i, body .step-number, body .process-timeline .step > i, body .contact-card-icon { color: #718818; }
+body a:focus-visible, body button:focus-visible, body input:focus-visible, body textarea:focus-visible, body select:focus-visible { outline-color: #819c25; }
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0c100b;
+  --surface: #171c15;
+  --surface-2: #20271b;
+  --text: #f3f5e9;
+  --muted: #b2bba9;
+  --line: #35402c;
+  --accent: #c9ec37;
+  --accent-hover: #d3f35c;
+  --accent-soft: rgba(201, 236, 55, .1);
+  --public-ink: #f3f5e9;
+  --public-muted: #b2bba9;
+  --public-gold: #c9ec37;
+  --public-line: #35402c;
+}
+html[data-theme="dark"] body { background: radial-gradient(ellipse at 65% 6%, #202b10 0%, #0c100b 38%); color: var(--text); }
+html[data-theme="dark"] .theme-toggle { background: #252d20; border-color: #46533a; color: #d4ec75; }
+html[data-theme="dark"] .theme-toggle:hover { background: #344127; }
+html[data-theme="dark"] .theme-moon { display: none; }
+html[data-theme="dark"] .theme-sun { display: block; }
+html[data-theme="dark"] body .site-header .nav { background: rgba(20, 26, 18, .96); border-color: #36432e; box-shadow: 0 12px 30px #0006; }
+html[data-theme="dark"] .brand, html[data-theme="dark"] .nav-link:hover, html[data-theme="dark"] .nav-link.active { color: #f3f5e9; }
+html[data-theme="dark"] .nav-link, html[data-theme="dark"] .nav-status { color: #c4cdbb; }
+html[data-theme="dark"] body .nav-status { background: #232d1d; border-color: #394a31; }
+html[data-theme="dark"] body .mega-menu, html[data-theme="dark"] body .mega-menu::before { background: #1a2117; border-color: #3b4931; }
+html[data-theme="dark"] body .mega-feature { background: #252f20; border-color: #465a37; }
+html[data-theme="dark"] body .mega-column h3, html[data-theme="dark"] body .mega-column > a i, html[data-theme="dark"] body .mega-kicker, html[data-theme="dark"] body .mega-feature > a, html[data-theme="dark"] body .mega-footer a { color: #c9ec65; }
+html[data-theme="dark"] body .mobile-nav-menu { background: #151c13 !important; border-color: #3b4931 !important; }
+html[data-theme="dark"] body .nav-toggle { background: #252d20; color: #f3f5e9; border-color: #46533a; }
+html[data-theme="dark"] body #home .hero-title, html[data-theme="dark"] body .section h2, html[data-theme="dark"] body .service h4 { color: #f3f5e9; }
+html[data-theme="dark"] body #home .hero-role, html[data-theme="dark"] body #home .hero-intro, html[data-theme="dark"] body #home .hero-sub, html[data-theme="dark"] body #home .hero-meta, html[data-theme="dark"] body #home .hero-meta a { color: #c2cbbc; }
+html[data-theme="dark"] body #home .hero-eyebrow, html[data-theme="dark"] body .section-kicker, html[data-theme="dark"] body .eyebrow { color: #c9ec65; }
+html[data-theme="dark"] body #home .hero-actions .btn-primary, html[data-theme="dark"] body .btn-primary, html[data-theme="dark"] body .btn-cta, html[data-theme="dark"] body .filter-btn.active { background: #c9ec37; border-color: #c9ec37; color: #141c0d; }
+html[data-theme="dark"] body #home .hero-actions .btn-outline, html[data-theme="dark"] body .btn-outline { background: transparent; border-color: #758965; color: #edf2e5; }
+html[data-theme="dark"] body .portrait-caption { background: #1e281b; border-color: #526442; }
+html[data-theme="dark"] body .portrait-caption strong { color: #f3f5e9; }
+html[data-theme="dark"] body .portrait-caption > span { color: #c9ec65; }
+html[data-theme="dark"] body .discipline-bar { background: #1d2719; border-block: 1px solid #35442b; }
+html[data-theme="dark"] body .skills-card, html[data-theme="dark"] body #education .education-card, html[data-theme="dark"] body .project-card, html[data-theme="dark"] body .service, html[data-theme="dark"] body .contact-form, html[data-theme="dark"] body .video-feature-card, html[data-theme="dark"] body .contact-card, html[data-theme="dark"] body .process-timeline .step, html[data-theme="dark"] body .about-stats div { background: #171e15; border-color: #35432e; box-shadow: none; color: #f3f5e9; }
+html[data-theme="dark"] body .muted, html[data-theme="dark"] body .service p, html[data-theme="dark"] body .skill p, html[data-theme="dark"] body .process-timeline small, html[data-theme="dark"] body .contact-card small, html[data-theme="dark"] body .form-heading small, html[data-theme="dark"] body .availability small { color: #b4c0ae; }
+html[data-theme="dark"] body .section-kicker, html[data-theme="dark"] body .service i, html[data-theme="dark"] body .step-number, html[data-theme="dark"] body .process-timeline .step > i, html[data-theme="dark"] body .contact-card-icon { color: #c9ec65; }
+html[data-theme="dark"] body .filter-btn { background: #1b2418; color: #e2ead9; border-color: #425338; }
+html[data-theme="dark"] body .filter-btn.active { color: #141c0d; }
+html[data-theme="dark"] body .contact-form input, html[data-theme="dark"] body .contact-form textarea { background: #0e150c; border-color: #45563c; color: #f3f5e9; }
+html[data-theme="dark"] body .site-footer { background: #141b12; border-color: #35432e; }
+html[data-theme="dark"] body .education-icon, html[data-theme="dark"] body .education-detail > i { background: #2a3821; color: #c9ec65; }
+html[data-theme="dark"] body #about .creative-focus-list li { background: #25321e; border-color: #4c603b; color: #e2ead9; }
+html[data-theme="dark"] body #about .creative-focus-label { color: #c9ec65; }
+html[data-theme="dark"] body #education .education-heading h2, html[data-theme="dark"] body #education .education-copy h3, html[data-theme="dark"] body #education .education-program, html[data-theme="dark"] body #education .education-detail p, html[data-theme="dark"] body #video .video-heading h2, html[data-theme="dark"] body #video .video-feature-card h3, html[data-theme="dark"] body #video .video-capability strong, html[data-theme="dark"] body #editing .editing-head h2, html[data-theme="dark"] body #editing .editing-panel h3, html[data-theme="dark"] body #editing .editing-skill strong { color: #f3f5e9; }
+html[data-theme="dark"] body #education .education-detail span, html[data-theme="dark"] body #video .video-feature-card small, html[data-theme="dark"] body #video .video-kicker, html[data-theme="dark"] body #video .video-signature, html[data-theme="dark"] body #editing .editing-signature { color: #b4c0ae; }
+html[data-theme="dark"] body #education .education-badges span { background: #344a26; color: #f3f5e9; }
+html[data-theme="dark"] body #video .video-feature-card { background: #171e15; border-color: #35432e; }
+html[data-theme="dark"] body #video .video-capability > i, html[data-theme="dark"] body #editing .editing-skill > i { background: #2a3821; color: #c9ec65; }
+html[data-theme="dark"] body .mobile-nav-submenu > a:hover, html[data-theme="dark"] body .mobile-nav-submenu > a:focus-visible { background: #293523; }
+html[data-theme="dark"] body a:focus-visible, html[data-theme="dark"] body button:focus-visible, html[data-theme="dark"] body input:focus-visible, html[data-theme="dark"] body textarea:focus-visible { outline-color: #c9ec65; }
+
+@media (max-width: 1023px) {
+  .theme-toggle { order: 2; margin-left: auto; margin-right: .6rem; }
+  .nav-toggle { order: 3; }
+}

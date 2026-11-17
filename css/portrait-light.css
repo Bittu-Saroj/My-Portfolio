@@ -1,0 +1,137 @@
+/* Light interpretation of the portrait's magenta, violet and blue lighting. */
+html:not([data-theme="dark"]) {
+  color-scheme: light;
+  --bg: #f8f6fc;
+  --surface: #fff;
+  --surface-2: #f2effb;
+  --text: #251b38;
+  --muted: #675d75;
+  --line: rgba(74, 48, 108, .14);
+  --accent: #a91a83;
+  --accent-hover: #8f116c;
+  --accent-soft: rgba(162, 35, 144, .09);
+  --public-ink: #251b38;
+  --public-muted: #675d75;
+  --public-gold: #a11d81;
+  --public-line: rgba(74, 48, 108, .14);
+  --portrait-gradient: linear-gradient(115deg, #ad167d, #8730b2 54%, #4054d5);
+}
+html:not([data-theme="dark"]) body {
+  color: var(--text);
+  background: radial-gradient(ellipse 48rem 36rem at -8% 10%, rgba(255, 35, 143, .12), transparent 70%),
+    radial-gradient(ellipse 45rem 35rem at 105% 18%, rgba(49, 91, 255, .12), transparent 70%), #f8f6fc;
+}
+html:not([data-theme="dark"]) body .site-header .nav {
+  background: rgba(255, 253, 255, .88);
+  border-color: rgba(126, 93, 151, .17);
+  box-shadow: 0 12px 32px rgba(55, 31, 78, .1);
+}
+html:not([data-theme="dark"]) body .site-header .brand { color: #291d3c; }
+html:not([data-theme="dark"]) body .theme-toggle,
+html:not([data-theme="dark"]) body .site-header .nav-toggle { background: #f8f2fc; border-color: #e8d9ed; color: #7b347d; }
+html:not([data-theme="dark"]) body .theme-toggle:hover { background: #f2e5f8; }
+html:not([data-theme="dark"]) body #home .hero-title,
+html:not([data-theme="dark"]) body .section h2,
+html:not([data-theme="dark"]) body .service h4 { color: #251b38; }
+html:not([data-theme="dark"]) body #home .hero-role { color: #4e405d; }
+html:not([data-theme="dark"]) body #home .hero-sub,
+html:not([data-theme="dark"]) body #home .hero-intro,
+html:not([data-theme="dark"]) body #home .hero-meta,
+html:not([data-theme="dark"]) body #home .hero-meta a { color: #675d75; }
+html:not([data-theme="dark"]) body #home .hero-sub { border-color: #c72598; }
+html:not([data-theme="dark"]) body #home .hero-eyebrow,
+html:not([data-theme="dark"]) body .section-kicker,
+html:not([data-theme="dark"]) body .section-head .eyebrow,
+html:not([data-theme="dark"]) body #process .eyebrow,
+html:not([data-theme="dark"]) body #contact .eyebrow { color: #982171; }
+html:not([data-theme="dark"]) body .hero-dot { background: #bd208b; }
+html:not([data-theme="dark"]) body #home .profile-frame {
+  border-color: rgba(174, 54, 160, .35);
+  box-shadow: -12px 18px 55px rgba(204, 36, 150, .17), 14px 10px 45px rgba(66, 79, 213, .16);
+}
+html:not([data-theme="dark"]) body .portrait-caption { background: rgba(255, 253, 255, .96); border-color: #eadcf0; box-shadow: 0 12px 30px rgba(62, 36, 93, .12); }
+html:not([data-theme="dark"]) body .portrait-caption > span { color: #a91a83; }
+html:not([data-theme="dark"]) body .discipline-bar { background: #251633; color: #fff; }
+html:not([data-theme="dark"]) body .discipline-bar span[aria-hidden] { color: #f79cdb; }
+
+/* Buttons, navigation and the selected pill use the same restrained gradient. */
+html:not([data-theme="dark"]) body #home .hero-actions .btn-primary,
+html:not([data-theme="dark"]) body .btn-primary,
+html:not([data-theme="dark"]) body .site-header .nav-cta .btn-cta,
+html:not([data-theme="dark"]) body .mobile-nav-cta .btn-cta {
+  background: var(--portrait-gradient); border-color: transparent; color: #fff;
+  box-shadow: 0 7px 20px rgba(126, 38, 154, .2);
+}
+html:not([data-theme="dark"]) body #home .hero-actions .btn-primary:hover,
+html:not([data-theme="dark"]) body .btn-primary:hover,
+html:not([data-theme="dark"]) body .site-header .nav-cta .btn-cta:hover { color: #fff; box-shadow: 0 9px 25px rgba(141, 40, 166, .3); }
+html:not([data-theme="dark"]) body #home .hero-actions .btn-outline,
+html:not([data-theme="dark"]) body .btn-outline { background: rgba(255,255,255,.6); border-color: #d3c1df; color: #38254a; }
+html:not([data-theme="dark"]) body .filter-btn { background: #fff; border-color: #e2d6e9; color: #594b68; }
+html:not([data-theme="dark"]) body .filter-btn.active,
+html:not([data-theme="dark"]) body .filter-btn.active:hover { background: #84339d; border-color: #84339d; color: #fff; }
+@media (min-width: 1024px) {
+  html:not([data-theme="dark"]) body .site-header .nav-list { background: #f0ebf6; border-color: #e8def0; }
+  html:not([data-theme="dark"]) body .site-header .nav-list .nav-link { color: #554762; }
+  html:not([data-theme="dark"]) body .site-header .nav-list .nav-link:hover,
+  html:not([data-theme="dark"]) body .site-header .nav-list .nav-link:focus-visible,
+  html:not([data-theme="dark"]) body .site-header .nav-list .nav-trigger[aria-expanded="true"] { background: #fff; color: #8b256f; }
+  html:not([data-theme="dark"]) body .site-header .nav-list .nav-link.active { color: #84236f; }
+  html:not([data-theme="dark"]) body .site-header .nav-list.has-indicator::before { background: #fff; box-shadow: 0 2px 10px rgba(99, 48, 123, .15); }
+  html:not([data-theme="dark"]) body .site-header .mega-menu { background: rgba(255, 253, 255, .98); border-color: #e8d9ed; box-shadow: 0 20px 50px rgba(69, 36, 94, .16); }
+  html:not([data-theme="dark"]) body .site-header .mega-column h3 { color: #885b8d; border-color: #eee4f1; }
+  html:not([data-theme="dark"]) body .site-header .mega-column > a { color: #34283f; }
+  html:not([data-theme="dark"]) body .site-header .mega-column > a:hover,
+  html:not([data-theme="dark"]) body .site-header .mega-column > a:focus-visible { background: #f8effa; color: #78246b; }
+  html:not([data-theme="dark"]) body .site-header .mega-column > a i { background: #f7eaf8; color: #a02a88; }
+  html:not([data-theme="dark"]) body .site-header .mega-column > a small { color: #71667a; }
+}
+@media (max-width: 1023px) {
+  html:not([data-theme="dark"]) body .site-header .mobile-nav-menu { background: rgba(255, 253, 255, .98) !important; border-color: #e8d9ed !important; }
+  html:not([data-theme="dark"]) body .mobile-nav-trigger[aria-expanded="true"] { background: #f7ebf8; color: #84236f; }
+  html:not([data-theme="dark"]) body .mobile-nav-submenu { border-color: #d79ad3; }
+  html:not([data-theme="dark"]) body .mobile-nav-submenu > a:hover,
+  html:not([data-theme="dark"]) body .mobile-nav-submenu > a:focus-visible { background: #f8effa; }
+}
+
+/* Consistent surfaces and readable copy through every section. */
+html:not([data-theme="dark"]) body .skills-card,
+html:not([data-theme="dark"]) body #education .education-card,
+html:not([data-theme="dark"]) body .project-card,
+html:not([data-theme="dark"]) body .service,
+html:not([data-theme="dark"]) body .contact-form,
+html:not([data-theme="dark"]) body .contact-card,
+html:not([data-theme="dark"]) body .process-timeline .step,
+html:not([data-theme="dark"]) body .about-stats div,
+html:not([data-theme="dark"]) body #video .video-feature-card {
+  background: rgba(255, 255, 255, .91); border-color: #e9dfee;
+  box-shadow: 0 12px 35px rgba(73, 40, 95, .055); color: #251b38;
+}
+html:not([data-theme="dark"]) body .project-card:hover,
+html:not([data-theme="dark"]) body .service:hover,
+html:not([data-theme="dark"]) body .process-timeline .step:hover { border-color: #ca9aca; box-shadow: 0 15px 35px rgba(120, 49, 146, .12); }
+html:not([data-theme="dark"]) body .muted,
+html:not([data-theme="dark"]) body .service p,
+html:not([data-theme="dark"]) body .process-timeline small { color: #675d75; }
+html:not([data-theme="dark"]) body .service i,
+html:not([data-theme="dark"]) body .step-number,
+html:not([data-theme="dark"]) body .process-timeline .step > i,
+html:not([data-theme="dark"]) body .contact-card-icon { color: #9d227f; }
+html:not([data-theme="dark"]) body .about-stats strong,
+html:not([data-theme="dark"]) body #about .creative-focus-label { color: #96227a; }
+html:not([data-theme="dark"]) body #about .creative-focus-list li { background: #fbf2fa; border-color: #edd6ea; color: #604363; }
+html:not([data-theme="dark"]) body #education .education-heading > span { background: var(--portrait-gradient); }
+html:not([data-theme="dark"]) body #education .education-icon,
+html:not([data-theme="dark"]) body #education .education-detail > i,
+html:not([data-theme="dark"]) body #video .video-capability > i,
+html:not([data-theme="dark"]) body #editing .editing-skill > i { background: #f5eaf9; color: #922b89; }
+html:not([data-theme="dark"]) body #education .education-badges span { background: #583168; color: #fff; }
+html:not([data-theme="dark"]) body #education .education-badges span + span { background: #f3eafa; color: #603c6a; }
+html:not([data-theme="dark"]) body .contact-form input,
+html:not([data-theme="dark"]) body .contact-form textarea { background: #fbf9fd; border-color: #dfd2e8; color: #251b38; }
+html:not([data-theme="dark"]) body .form-icon { background: #f3e3f7; color: #8c277f; }
+html:not([data-theme="dark"]) body .site-footer { background: #f0ebf7; border-color: #e1d6ea; }
+html:not([data-theme="dark"]) body a:focus-visible,
+html:not([data-theme="dark"]) body button:focus-visible,
+html:not([data-theme="dark"]) body input:focus-visible,
+html:not([data-theme="dark"]) body textarea:focus-visible { outline-color: #9c258d; }

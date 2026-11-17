@@ -68,3 +68,23 @@ a{color:inherit}img,video,svg{display:block;max-width:100%}button,input,textarea
   .mobile-nav-submenu>a{border-radius:6px;padding:.65rem .5rem}
   .mobile-nav-submenu>a:hover,.mobile-nav-submenu>a:focus-visible{background:#fbf4e5}
 }
+
+/* A consistent visual system for the portfolio and its management studio. */
+body{background:radial-gradient(circle at 84% 17%,rgba(244,197,66,.12),transparent 24rem),#f7f6f1}
+.section{scroll-margin-top:7rem}
+.section-head h2,#services>h2,#process h2,#contact h2{letter-spacing:-.04em;line-height:1.12}
+.section-head .muted{max-width:40rem;line-height:1.7}
+.section-head{gap:1rem}
+.btn{min-height:44px;letter-spacing:.005em}
+.btn:focus-visible,.filter-btn:focus-visible,.nav-toggle:focus-visible{outline:3px solid #ae7d15;outline-offset:4px}
+.project-card,.video-card,.service,.skills-card,.contact-form{border-color:rgba(31,48,65,.09);box-shadow:0 10px 32px rgba(31,48,65,.045)}
+.service{border-radius:20px;background:linear-gradient(145deg,#fffefa,#fff);padding:clamp(1.25rem,2.3vw,1.8rem)}
+.service i{display:grid;place-items:center;width:2.8rem;height:2.8rem;border-radius:12px;background:#fcf2d9;color:#a97915;font-size:1.15rem}
+.service h4{color:#1a2b3d;letter-spacing:-.02em}
+.filter-btn{min-height:40px;padding:.5rem .95rem;background:#fffefa}
+.filter-btn.active{background:#f4c542}
+.contact-form input,.contact-form textarea{background:#fcfcfa;border-color:#dce2e1}
+.contact-form input:focus,.contact-form textarea:focus{outline:2px solid #c79325;outline-offset:2px}
+.site-footer{background:#f1f0e9}
+@media(max-width:700px){.section{scroll-margin-top:6rem}.section-head{align-items:flex-start}.hero-actions .btn{min-height:48px}.service{padding:1.3rem}.contact-form{border-radius:16px}.filter-bar{gap:.5rem}.filter-btn{min-height:44px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
