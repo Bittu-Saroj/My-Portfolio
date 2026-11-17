@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "photos": [
+    {"id":"existing-portrait","image":"assets/images/photography/portrait-01.jpg","title":"Portrait","alt":"Portrait photograph","category":"Portrait"},
+    {"id":"placeholder-landscape","image":"assets/images/photography/landscape-01.svg","title":"Landscape — coming soon","alt":"Landscape placeholder","category":"Landscape"},
+    {"id":"placeholder-events","image":"assets/images/photography/event-01.svg","title":"Events — coming soon","alt":"Event placeholder","category":"Events"},
+    {"id":"placeholder-product","image":"assets/images/photography/product-01.svg","title":"Product — coming soon","alt":"Product placeholder","category":"Product"}
+  ],
+  "videos": []
+}

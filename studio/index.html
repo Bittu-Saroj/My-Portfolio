@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Portfolio Studio | Saroj Pathak</title>
+  <link rel="stylesheet" href="studio.css">
+  <script src="studio.js" defer></script>
+</head>
+<body>
+  <header class="topbar"><a href="/" class="brand"><span class="brand-mark">S.</span><span>Saroj Pathak <small>PORTFOLIO STUDIO</small></span></a><div><a href="/" target="_blank" rel="noopener">View portfolio ↗</a><button id="sign-out" class="button subtle" type="button" hidden>Sign out</button></div></header>
+  <main class="container">
+    <div id="message" class="message" role="status" aria-live="polite" hidden></div>
+    <section id="login" class="login-panel">
+      <p class="eyebrow">YOUR CREATIVE SPACE</p><h1>Welcome to your studio.</h1>
+      <p>Manage the photos and videos on your portfolio. Changes are saved to your GitHub repository and published by GitHub Pages.</p>
+      <div class="instructions"><strong>Connect securely with GitHub</strong><ol><li>Create a fine-grained personal access token for only the <strong>My-Portfolio</strong> repository, with <strong>Contents: Read and write</strong> permission.</li><li>Paste it below. Only the <strong>Bittu-Saroj</strong> account with write access can manage this portfolio.</li></ol><a href="https://github.com/settings/personal-access-tokens/new?name=Portfolio%20Studio&amp;target_name=Bittu-Saroj&amp;contents=write" target="_blank" rel="noopener noreferrer">Create a GitHub token ↗</a><p>The token is held in this page’s memory only and sent only to GitHub. Never share it in chat.</p></div>
+      <form id="login-form"><label for="token">GitHub access token</label><input id="token" type="password" autocomplete="off" required placeholder="Paste your fine-grained token"><button class="button primary" type="submit">Connect to GitHub →</button></form>
+    </section>
+    <section id="workspace" hidden>
+      <div class="workspace-heading"><div><p class="eyebrow">PORTFOLIO STUDIO</p><h1>Your work, your way.</h1><p>Add and manage media without editing code. Publishing may take a few minutes.</p></div><span id="account" class="account"></span></div>
+      <div class="workspace-grid">
+        <section class="panel collection"><div class="panel-heading"><div><h2>Your collection</h2><p>Manage the work visitors see.</p></div><button class="button primary" id="new-item" type="button">＋ Add new</button></div>
+          <div class="tabs" role="tablist" aria-label="Media type"><button id="photos-tab" type="button" role="tab" aria-selected="true" aria-controls="list">Photos</button><button id="videos-tab" type="button" role="tab" aria-selected="false" aria-controls="list">Videos</button></div>
+          <p id="item-count" class="muted" aria-live="polite"></p><div id="list" class="item-list" role="tabpanel"></div>
+        </section>
+        <section id="editor" class="panel editor" hidden><div class="panel-heading"><div><h2 id="editor-title">Add photo</h2><p>Choose a file and add the details.</p></div><button id="cancel" class="button subtle" type="button">Cancel</button></div>
+          <form id="editor-form"><label for="title">Title</label><input id="title" maxlength="140" required>
+            <div id="photo-fields"><label for="category">Category</label><select id="category"><option>Portrait</option><option>Landscape</option><option>Events</option><option>Product</option><option>Photography</option></select><label for="alt">Image description</label><input id="alt" maxlength="200" placeholder="Describe the photo for accessibility"></div>
+            <div id="video-fields" hidden><label for="description">Description</label><textarea id="description" rows="4" maxlength="2000"></textarea><label for="video-url">Video link (optional)</label><input id="video-url" type="url" placeholder="https://..." maxlength="2048"><label id="clear-video-label" class="check-label" hidden><input id="clear-video" type="checkbox"> Remove the current uploaded video</label></div>
+            <label id="file-label" for="media-file">Photo file</label><input id="media-file" type="file"><p id="file-hint" class="hint"></p>
+            <div class="form-actions"><button id="save" type="submit" class="button primary">Save and publish</button></div>
+          </form>
+        </section>
+      </div>
+      <p class="workspace-note">Removing an item hides it from the website. Uploaded files remain in the repository so you can recover them.</p>
+    </section>
+  </main>
+</body></html>

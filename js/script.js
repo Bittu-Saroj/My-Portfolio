@@ -10,12 +10,12 @@ document.addEventListener('DOMContentLoaded', function(){
   };
   window.addEventListener('scroll', () => { updateHeader(); updateProgress(); }, {passive:true});
   updateProgress();
+  const safeHttpUrl=value=>{
+    if(typeof value!=='string' || !value.trim()) return null;
+    try{const url=new URL(value,window.location.origin);return ['http:','https:'].includes(url.protocol)?url.href:null;}catch{return null;}
+  };
   fetch('admin/api-settings.php').then(r=>r.ok?r.json():{}).then(settings=>{
     const setText=(selector,key)=>{const el=document.querySelector(selector); if(el && settings[key]) el.textContent=settings[key]};
-    const safeHttpUrl=value=>{
-      if(typeof value!=='string' || !value.trim()) return null;
-      try{const url=new URL(value,window.location.origin);return ['http:','https:'].includes(url.protocol)?url.href:null;}catch{return null;}
-    };
     const setContactText=(selector,label,value)=>{
       const item=document.querySelector(selector); if(!item) return;
       const heading=document.createElement('strong'); heading.textContent=label+':';
@@ -346,6 +346,9 @@ document.addEventListener('DOMContentLoaded', function(){
   ];
   const photoGrid = document.getElementById('photo-grid');
   const photoCount = document.getElementById('photo-count');
+  // GitHub Pages cannot run PHP; read the repository-backed studio content there.
+  const staticPortfolio = fetch('content/portfolio.json', {cache:'no-cache'})
+    .then(response=>response.ok ? response.json() : null).catch(()=>null);
   if(photoGrid) photoGrid.innerHTML = '<div class="loading-state">Loading photographs…</div>';
   function renderPhotos(list){
     if(!photoGrid) return;
@@ -379,8 +382,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if(Array.isArray(data)) renderPhotos(data);
     else renderPhotos([]);
   }).catch(()=>{
-    // fallback local
-    renderPhotos(photos);
+    staticPortfolio.then(data=>renderPhotos(Array.isArray(data?.photos) ? data.photos : photos));
   });
 
   // Videos and process steps are managed from the admin panel. A fallback is
@@ -392,23 +394,26 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!videoGrid) return;
     videoGrid.innerHTML='<article class="video-feature-card"><img src="assets/images/tools/premiere-pro.svg" alt="Adobe Premiere Pro" class="video-pr-icon"><div><span class="video-kicker">Featured Project</span><h3>Video Coming Soon</h3><p>Project Placeholder</p><small>Premiere Pro / Reels</small></div><span class="video-arrow" aria-hidden="true">→</span></article>';
   }
-  fetch('admin/api-videos.php').then(r=>{if(!r.ok) throw new Error('API unavailable'); return r.json();}).then(videos=>{
+  function renderVideos(videos){
     if(!videoGrid) return;
     videoGrid.innerHTML='';
-    if(!videos.length){ videoGrid.innerHTML='<div class="empty-state">Video projects will be published here soon.</div>'; return; }
+    if(!Array.isArray(videos) || !videos.length){renderVideoFallback();return;}
     videos.forEach(video=>{
       const card=document.createElement('div'); card.className='video-card';
       const thumb=document.createElement('div'); thumb.className='video-thumb';
-      if(video.video && !video.thumb){const player=document.createElement('video'); player.src=video.video; player.controls=true; player.preload='metadata'; thumb.appendChild(player);}
+      if(video.video){const player=document.createElement('video'); player.src=video.video; player.controls=true; player.preload='metadata'; if(video.thumb) player.poster=video.thumb; thumb.appendChild(player);}
       else if(video.thumb){const img=document.createElement('img'); img.src=video.thumb; img.alt=video.title||'Video'; thumb.appendChild(img);}
       else thumb.textContent='Video';
       card.append(thumb);
       const title=document.createElement('h4'); title.textContent=video.title||''; card.appendChild(title);
       const desc=document.createElement('p'); desc.className='muted'; desc.textContent=video.description||''; card.appendChild(desc);
-      if(video.url){const link=document.createElement('a'); link.className='btn btn-sm'; link.href=video.url; link.target='_blank'; link.rel='noopener'; link.textContent='Watch video'; card.appendChild(link);}
+      const safeVideoLink=safeHttpUrl(video.url);
+      if(safeVideoLink){const link=document.createElement('a'); link.className='btn btn-sm'; link.href=safeVideoLink; link.target='_blank'; link.rel='noopener noreferrer'; link.textContent='Watch video'; card.appendChild(link);}
       videoGrid.appendChild(card);
     });
-  }).catch(()=>{renderVideoFallback();});
+  }
+  fetch('admin/api-videos.php').then(r=>{if(!r.ok) throw new Error('API unavailable'); return r.json();}).then(renderVideos)
+    .catch(()=>staticPortfolio.then(data=>renderVideos(data?.videos)));
 
   const processTimeline = document.getElementById('process-timeline');
   if(processTimeline) processTimeline.innerHTML = '<div class="loading-state">Loading process…</div>';
